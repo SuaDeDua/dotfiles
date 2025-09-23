@@ -17,8 +17,8 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-plugins=(git zsh-autosuggestions)
+# plugins=(git zsh-autosuggestions)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)
 
 source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
@@ -46,8 +46,10 @@ alias fv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias v=nvim
 alias vim=nvim
 alias nv=nvim
+alias n=nvim
 alias ovim=vim
 alias cfg='nvim ~/.config'
+alias ndot='nvim ~/dotfiles/nvim-dotnet/.config/nvim'
 alias ghostty='nvim ~/.config/ghostty'
 alias os='nvim ~/.zshrc'
 alias ss='source ~/.zshrc'
@@ -59,6 +61,32 @@ alias ctm='nvim ~/.config/tmux/tmux.conf'
 alias stm='tmux source-file ~/.config/tmux/tmux.conf \;'
 # confirm before remove something... fk.
 alias rm="rm -i"
+# delete DS_Store Files
+alias dds="find . -name ".DS_Store" -type f -delete"
+
+# direct to .NET project
+alias netp='cd ~/Documents/NET-Course'
+
+# multi config nvim setting
+alias nvim-dotnet="NVIM_APPNAME=nvim-dotnet nvim"
+# alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+# alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+# alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+
+function nvims() {
+  # items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
+  items=("default" "nvim-dotnet")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+
+bindkey -s ^a "nvims\n"
 
 # PATH
 export PATH="/opt/homebrew/share/android-commandlinetools/cmdline-tools/latest/bin:$PATH"
