@@ -149,7 +149,7 @@ return {
 		vim.keymap.set("n", "<leader>e", function()
 			vim.cmd("NvimTreeFocus")
 		end, { silent = true })
-		vim.keymap.set("n", "<C-n>", function()
+		vim.keymap.set("n", "<leader>e", function()
 			vim.cmd("NvimTreeToggle")
 		end, { silent = true })
 	end,
