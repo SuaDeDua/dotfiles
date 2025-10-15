@@ -8,7 +8,13 @@ return {
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
-				cs = {},
+				cs = { "csharpier" },
+			},
+			formatters = {
+				csharpier = {
+					command = "dotnet-csharpier",
+					args = { "--write-stdout" },
+				},
 			},
 		})
 	end,

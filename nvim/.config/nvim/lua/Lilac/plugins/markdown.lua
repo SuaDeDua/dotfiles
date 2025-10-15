@@ -6,7 +6,7 @@ return {
 		"nvim-tree/nvim-web-devicons",
 		"echasnovski/mini.nvim",
 	},
-  after = {'nvim-treesitter'},
+	after = { "nvim-treesitter" },
 	---@module 'render-markdown'
 	---@type render.md.UserConfig
 	opts = {
@@ -49,6 +49,7 @@ return {
 			custom = {},
 		},
 
+		-- NOTE: code block
 		code = {
 			enabled = true,
 			render_modes = false,
@@ -84,5 +85,8 @@ return {
 			highlight_inline = "RenderMarkdownCodeInline",
 			style = "full",
 		},
+
+		-- NOTE: checkboxes
+		checkbox = { checked = { scope_highlight = "@markup.strikethrough" } },
 	},
 }

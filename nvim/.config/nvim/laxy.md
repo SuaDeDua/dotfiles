@@ -5,7 +5,7 @@ def main() -> None:
     print("Hello, World!")
 ```
 
-```rust
+```cs
 fn main() {
     println!("Hello, World!");
 }

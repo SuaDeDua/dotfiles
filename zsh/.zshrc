@@ -18,7 +18,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(git zsh-autosuggestions)
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete zsh-256color)
 
 source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
@@ -66,6 +66,8 @@ alias dds="find . -name ".DS_Store" -type f -delete"
 
 # direct to .NET project
 alias netp='cd ~/Documents/NET-Course'
+# direct to Note
+alias note='nvim ~/Documents/my-second-brain/'
 
 # multi config nvim setting
 alias nvim-dotnet="NVIM_APPNAME=nvim-dotnet nvim"
@@ -75,7 +77,7 @@ alias nvim-dotnet="NVIM_APPNAME=nvim-dotnet nvim"
 
 function nvims() {
   # items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
-  items=("default" "nvim-dotnet")
+  items=("default" "nvim-dotnet" "nvim-chad")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
