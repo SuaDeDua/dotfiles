@@ -180,9 +180,9 @@ run = 'move-node-to-workspace G'
 # if.app-id = 'com.obsproject.obs-studio'
 # run = 'move-node-to-workspace V'
 
-# [[on-window-detected]]
-# if.app-id = 'com.vmware.fusion'
-# run = 'move-node-to-workspace X'
+[[on-window-detected]]
+if.app-id = 'com.vmware.fusion'
+run = 'move-node-to-workspace V'
 
 [[on-window-detected]]
 if.app-id = 'org.qutebrowser.qutebrowser'
@@ -190,6 +190,10 @@ run = ['move-node-to-workspace M']
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
+run = [ 'move-node-to-workspace M']
+
+[[on-window-detected]]
+if.app-id = 'com.deezer.deezer-desktop'
 run = [ 'move-node-to-workspace M']
 
 #which work space is on which monitor

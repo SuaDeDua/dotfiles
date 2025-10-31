@@ -49,7 +49,7 @@ alias nv=nvim
 alias n=nvim
 alias ovim=vim
 alias cfg='nvim ~/.config'
-alias ndot='nvim ~/dotfiles/nvim-dotnet/.config/nvim'
+alias ndot='nvim ~/dotfiles/nvim-dotnet/.config/nvim-dotnet/'
 alias ghostty='nvim ~/.config/ghostty'
 alias os='nvim ~/.zshrc'
 alias ss='source ~/.zshrc'
@@ -68,16 +68,19 @@ alias dds="find . -name ".DS_Store" -type f -delete"
 alias netp='cd ~/Documents/NET-Course'
 # direct to Note
 alias note='nvim ~/Documents/my-second-brain/'
+# direct to dev-habit project
+alias dev-habit='nvim-dotnet ~/Documents/NET-Course/dev-habit/'
 
 # multi config nvim setting
 alias nvim-dotnet="NVIM_APPNAME=nvim-dotnet nvim"
+alias nvim-moaid="NVIM_APPNAME=nvim-moaid nvim"
 # alias nvim-kick="NVIM_APPNAME=kickstart nvim"
 # alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 # alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 
 function nvims() {
   # items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
-  items=("default" "nvim-dotnet" "nvim-chad")
+  items=("default" "nvim-dotnet" "nvim-moaid")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
