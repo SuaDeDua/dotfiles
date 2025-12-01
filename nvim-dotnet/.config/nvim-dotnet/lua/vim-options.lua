@@ -57,5 +57,4 @@ vim.opt.fillchars:append { diff = "╱" }
 -- Remap C-s to save the buffer
 vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-s>', '<Esc>:w', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true, silent = true })
 

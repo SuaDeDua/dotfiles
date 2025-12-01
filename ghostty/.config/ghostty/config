@@ -328,3 +328,5 @@ background-blur = true
 # on. A value outside of the range 0.15 to 1 will be clamped to the nearest
 # valid value.
 unfocused-split-opacity = 0.7
+
+adjust-cell-height = 5

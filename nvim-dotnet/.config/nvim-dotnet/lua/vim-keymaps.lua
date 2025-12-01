@@ -63,8 +63,8 @@ vim.keymap.set("n", "<Esc>", ":nohl<CR>", {
 	desc = "Clear search hl",
 	silent = true,
 })
--- format without prettier using the built in
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+-- -- format without prettier using the built in
+-- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 -- Unmaps Q in normal mode
 -- vim.keymap.set("n", "Q", "<nop>")

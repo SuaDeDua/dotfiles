@@ -3,7 +3,13 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+# Thiết lập đường dẫn cho Zsh completions (Quan trọng cho Homebrew)
+# Đường dẫn này là mặc định cho các gói Homebrew trên Apple Silicon (/opt/homebrew)
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 
+# Khởi tạo hệ thống tự động hoàn thành (cần phải chạy sau khi thiết lập fpath)
+autoload -Uz compinit
+compinit
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -74,13 +80,14 @@ alias dev-habit='nvim-dotnet ~/Documents/NET-Course/dev-habit/'
 # multi config nvim setting
 alias nvim-dotnet="NVIM_APPNAME=nvim-dotnet nvim"
 alias nvim-moaid="NVIM_APPNAME=nvim-moaid nvim"
+alias nvim-roslyn="NVIM_APPNAME=nvim-roslyn nvim"
 # alias nvim-kick="NVIM_APPNAME=kickstart nvim"
 # alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 # alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 
 function nvims() {
   # items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
-  items=("default" "nvim-dotnet" "nvim-moaid")
+  items=("default" "nvim-dotnet" "nvim-moaid" "nvim-roslyn")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
@@ -94,10 +101,14 @@ function nvims() {
 bindkey -s ^a "nvims\n"
 
 # PATH
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 export PATH="/opt/homebrew/share/android-commandlinetools/cmdline-tools/latest/bin:$PATH"
 export JAVA_HOME=$(/usr/libexec/java_home -v 23)
 export PATH=$JAVA_HOME/bin:$PATH
 export NODE_PATH=$NODE_PATH:$(npm root -g)
+export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig"
 
 alias vcf="cd ~/.config/nvim && nvim"
 alias python=python3

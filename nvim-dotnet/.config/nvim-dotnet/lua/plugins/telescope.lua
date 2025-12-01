@@ -7,7 +7,7 @@ return {
 			vim.keymap.set("n", "<leader>fw", builtin.live_grep, {})
 			vim.keymap.set("n", "<leader><leader>", builtin.find_files, {})
 			vim.keymap.set("n", "<leader>fz", builtin.current_buffer_fuzzy_find, {})
-
+			vim.keymap.set("n", "<leader>pr", "<cmd>Telescope oldfiles<CR>", { desc = "Fuzzy find recent files" })
 			vim.keymap.set(
 				"n",
 				"<leader>ths",
