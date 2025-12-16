@@ -116,11 +116,29 @@ alias dc=docker-compose
 alias lzd=lazydocker
 # fetch then allow to fuzzy finding branches
 alias gcof='git fetch && git checkout $(git branch | fzf | sed "s/^..//")'
+
+# Function rút gọn cho lệnh tạo Migration
+function efadd() {
+    if [ -z "$1" ]; then
+        echo "Lỗi: Bạn chưa nhập tên Migration!"
+        echo "Cách dùng: efadd TenMigration"
+        return 1
+    fi
+    
+    # Lệnh gốc của bạn
+    dotnet ef migrations add "$1" -p src/DevHabit.Api -o Migrations/Application
+}
+
+# Function rút gọn cho lệnh Update Database (tiện tay làm luôn)
+function efup() {
+    dotnet ef database update -p src/DevHabit.Api
+}
 # push with set upstream for the current branch
 gpup() {
   branch=$(git rev-parse --abbrev-ref HEAD)
   git push --set-upstream origin "$branch"
 }
+
 opg() {
   local base="$HOME/Documents/git"
   local dir

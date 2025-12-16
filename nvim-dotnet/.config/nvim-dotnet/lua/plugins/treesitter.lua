@@ -5,7 +5,7 @@ return {
 		local config = require("nvim-treesitter.configs")
 		config.setup({
 			auto_install = true,
-			ensure_installed = { "c_sharp", "http", "json", "lua" },
+			ensure_installed = { "c_sharp", "http", "json", "lua", "hurl" },
 			highlight = { enable = true },
 			indent = { enable = true },
 			textobjects = {

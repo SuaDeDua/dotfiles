@@ -253,8 +253,30 @@ return {
 				end,
 				desc = "Help Pages",
 			},
+			{
+				"<leader>pfr",
+				function()
+					require("snacks").picker.files({
+						title = "API Requests",
+						cmd = "fd",
+						args = {
+							"--extension",
+							"http",
+							"--extension",
+							"hurl",
+							"--type",
+							"f",
+							"--exclude",
+							".git",
+							"--hidden",
+						},
+					})
+				end,
+				desc = "Find .http & .hurl files",
+			},
 		},
 	},
+
 	-- NOTE: todo comments w/ snacks
 	{
 		"folke/todo-comments.nvim",
