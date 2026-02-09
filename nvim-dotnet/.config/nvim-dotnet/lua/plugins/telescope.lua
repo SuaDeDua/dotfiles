@@ -3,6 +3,10 @@ return {
 		"nvim-telescope/telescope.nvim",
 		event = "VeryLazy",
 		config = function()
+			require("textcase").setup({})
+			require("telescope").load_extension("textcase")
+			vim.api.nvim_set_keymap("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+			vim.api.nvim_set_keymap("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<leader>fw", builtin.live_grep, {})
 			vim.keymap.set("n", "<leader><leader>", builtin.find_files, {})

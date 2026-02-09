@@ -56,6 +56,7 @@ return {
 					reload = "",
 					test = "",
 					sln = "󰘐",
+					slnx = "󰘐",
 					project = "󰘐",
 					dir = "",
 					package = "",
@@ -81,7 +82,8 @@ return {
 			},
 			new = {
 				project = {
-					prefix = "sln", -- "sln" | "none"
+					prefix = "sln",
+					"slnx", -- "sln" | "none"
 				},
 			},
 			---@param action "test" | "restore" | "build" | "run"

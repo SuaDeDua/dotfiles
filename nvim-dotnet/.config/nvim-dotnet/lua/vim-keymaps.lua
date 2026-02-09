@@ -29,7 +29,9 @@ vim.keymap.set("v", "E", ":m '>+1<CR>gv=gv", {
 vim.keymap.set("v", "I", ":m '<-2<CR>gv=gv", {
 	desc = "moves lines up in visual selection",
 })
-
+vim.keymap.set("n", "<leader>rn", "<cmd>%s/^\\s*\\d\\+\\s*//<CR>", {
+	desc = "Remove line numbers (Clean code)",
+})
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz", {
 	desc = "move down in buffer with cursor centered",

@@ -71,7 +71,7 @@ alias rm="rm -i"
 alias dds="find . -name ".DS_Store" -type f -delete"
 
 # direct to .NET project
-alias netp='cd ~/Documents/NET-Course'
+alias netp='cd ~/Documents/dotnet/NET-Project/'
 # direct to Note
 alias note='nvim ~/Documents/my-second-brain/'
 # direct to dev-habit project
@@ -181,3 +181,4 @@ qss() {
 }
 bindkey -v
 bindkey ^F autosuggest-accept
+export PATH=$PATH:$HOME/go/bin

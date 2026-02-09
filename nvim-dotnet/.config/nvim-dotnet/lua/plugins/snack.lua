@@ -260,7 +260,6 @@ return {
 						title = "API Requests",
 						cmd = "fd",
 						args = {
-							"--extension",
 							"http",
 							"--extension",
 							"hurl",

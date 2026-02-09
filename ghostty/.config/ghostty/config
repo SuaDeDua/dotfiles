@@ -22,8 +22,15 @@
 # 
 # Cycles are not allowed. If a cycle is detected, an error will be logged and
 # the configuration file will be ignored.
-config-file = ghostty-theme
+# config-file = ghostty-theme
 
+theme = Catppuccin Frappe
+
+background = #000000
+foreground = #ffffff
+
+cursor-color = cell-foreground
+cursor-text = cell-background
 # Some shaders can be found in this repo, they're usually uploaded to discord
 # https://github.com/hackrmomo/ghostty-shaders
 # custom-shader = shaders/animated-gradient-shader.glsl
