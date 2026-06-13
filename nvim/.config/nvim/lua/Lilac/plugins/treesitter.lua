@@ -1,63 +1,61 @@
 return {
-	{
-		"nvim-treesitter/nvim-treesitter",
-		event = { "BufReadPre", "BufNewFile" },
-		build = ":TSUpdate",
-		config = function()
-			-- import nvim-treesitter plugin
-			local treesitter = require("nvim-treesitter.configs")
+	"nvim-treesitter/nvim-treesitter",
+	branch = "main", -- Bắt buộc trỏ sang nhánh main cho Neovim 0.12+
+	lazy = false,
+	build = ":TSUpdate",
+	config = function()
+		-- 1. Setup cơ bản (không còn dùng nvim-treesitter.configs nữa)
+		require("nvim-treesitter").setup({
+			install_dir = vim.fn.stdpath("data") .. "/site",
+		})
 
-			-- configure treesitter
-			treesitter.setup({ -- enable syntax highlighting
-				highlight = {
-					enable = true,
-				},
-				-- enable indentation
-				indent = { enable = true },
+		-- 2. Cài đặt các parser bạn cần
+		require("nvim-treesitter").install({
+      "json",
+      "javascript",
+      "typescript",
+      "tsx",
+      "go",
+      "yaml",
+      "html",
+      "css",
+      "python",
+      "http",
+      "prisma",
+      "markdown",
+      "markdown_inline",
+      "svelte",
+      "graphql",
+      "bash",
+      "lua",
+      "vim",
+      "dockerfile",
+      "gitignore",
+      "query",
+      "vimdoc",
+      "c",
+      "java",
+      "rust",
+      "ron",
+		})
 
-				-- ensure these languages parsers are installed
-				ensure_installed = {
-					"json",
-					"javascript",
-					"typescript",
-					"tsx",
-					"go",
-					"yaml",
-					"html",
-					"css",
-					"python",
-					"http",
-					"prisma",
-					"markdown",
-					"markdown_inline",
-					"svelte",
-					"graphql",
-					"bash",
-					"lua",
-					"vim",
-					"dockerfile",
-					"gitignore",
-					"query",
-					"vimdoc",
-					"c",
-					"java",
-					"rust",
-					"ron",
-					"c_sharp",
-				},
-				-- NOTE: Setting before all done
-				-- incremental_selection = {
-				--     enable = true,
-				--     keymaps = {
-				--         init_selection = "<C-z>",
-				--         node_incremental = "<C-z>",
-				--         scope_incremental = false,
-				--     },
-				-- },
-				additional_vim_regex_highlightine = false,
-			})
-		end,
-	},
+		-- 3. Kích hoạt Highlight thông qua tính năng có sẵn của Neovim 0.12
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "*",
+			callback = function()
+				pcall(vim.treesitter.start)
+			end,
+		})
+
+		-- 4. Kích hoạt Indent (Thụt lề)
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "*",
+			callback = function()
+				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end,
+		})
+	end,
+},
 	-- NOTE: js,ts,jsx,tsx Auto Close Tags
 	{
 		"windwp/nvim-ts-autotag",

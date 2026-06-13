@@ -184,6 +184,7 @@ run = "move-node-to-workspace N"
 if.app-id = 'com.hnc.Discord'
 run = 'move-node-to-workspace G'
 
+
 # [[on-window-detected]]
 # if.app-id = 'com.blackmagic-design.DaVinciResolveLite'
 # run = 'move-node-to-workspace V'
@@ -210,11 +211,11 @@ run = [ 'move-node-to-workspace M']
 
 #which work space is on which monitor
 [workspace-to-monitor-force-assignment]
-W = 1 
-C = 'secondary'
-X = 'secondary'
-D = 'main'
-S = 'main'
+# W = 1 
+C = 'main'
+# X = 'secondary'
+# D = 'main'
+# S = 'main'
 
 #join 
 # alt-shift-; for service mode

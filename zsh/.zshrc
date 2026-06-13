@@ -73,7 +73,7 @@ alias dds="find . -name ".DS_Store" -type f -delete"
 # direct to .NET project
 alias netp='cd ~/Documents/dotnet/NET-Project/'
 # direct to Note
-alias note='nvim ~/Documents/my-second-brain/'
+alias note='nvim-dotnet ~/Documents/my-second-brain/'
 # direct to dev-habit project
 alias dev-habit='nvim-dotnet ~/Documents/NET-Course/dev-habit/'
 

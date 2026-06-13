@@ -73,10 +73,6 @@ return {
 				
 				-- WhichKey / Others
 				WhichKeyFloat = { bg = "NONE" },
-
-				-- LSP / Roslyn References & Inlay Hints
-				LspCodeLens = { fg = "#6272a4", italic = true },
-				LspInlayHint = { fg = "#6272a4", italic = true },
 			},
 			-- You can use overrides as a function to have access to the colors
 			-- overrides = function (colors)
