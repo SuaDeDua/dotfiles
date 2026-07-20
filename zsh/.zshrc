@@ -1,3 +1,4 @@
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -54,10 +55,11 @@ alias vim=nvim
 alias nv=nvim
 alias n=nvim
 alias ovim=vim
-alias cfg='nvim ~/.config'
-alias ndot='nvim ~/dotfiles/nvim-dotnet/.config/nvim-dotnet/'
-alias ghostty='nvim ~/.config/ghostty'
-alias os='nvim ~/.zshrc'
+alias cfg='nvim-dotnet ~/.config'
+alias ndot='nvim-dotnet ~/dotfiles/nvim-dotnet/.config/nvim-dotnet/'
+alias njava='nvim ~/dotfiles/nvim-java/.config/nvim-java/'
+alias ghostty='nvim-dotnet ~/.config/ghostty'
+alias os='nvim-dotnet ~/.zshrc'
 alias ss='source ~/.zshrc'
 alias k='kubectl'
 alias gr=./gradlew
@@ -81,6 +83,7 @@ alias dev-habit='nvim-dotnet ~/Documents/NET-Course/dev-habit/'
 alias nvim-dotnet="NVIM_APPNAME=nvim-dotnet nvim"
 alias nvim-moaid="NVIM_APPNAME=nvim-moaid nvim"
 alias nvim-roslyn="NVIM_APPNAME=nvim-roslyn nvim"
+alias nvim-java="NVIM_APPNAME=nvim-java nvim"
 # alias nvim-kick="NVIM_APPNAME=kickstart nvim"
 # alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 # alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
@@ -126,13 +129,14 @@ function efadd() {
     fi
     
     # Lệnh gốc của bạn
-    dotnet ef migrations add "$1" -p src/DevHabit.Api -o Migrations/Application
+    dotnet ef migrations add "$1" -p src/Modules/Assets/Assetly.Modules.Assets.Infrastructure -s src/API/Assetly.Api -o Database/Migrations
 }
 
 # Function rút gọn cho lệnh Update Database (tiện tay làm luôn)
 function efup() {
-    dotnet ef database update -p src/DevHabit.Api
+    dotnet ef database update -p src/Modules/Assets/Assetly.Modules.Assets.Infrastructure -s src/API/Assetly.Api
 }
+
 # push with set upstream for the current branch
 gpup() {
   branch=$(git rev-parse --abbrev-ref HEAD)
@@ -182,3 +186,8 @@ qss() {
 bindkey -v
 bindkey ^F autosuggest-accept
 export PATH=$PATH:$HOME/go/bin
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/suadedua/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/imagemagick-full/bin:$PATH"

@@ -2,58 +2,48 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
-local job_indicator = { require("easy-dotnet.ui-modules.jobs").lualine }
-
-require("lualine").setup {
-  sections = {
-    -- ...
-    lualine_a = { "mode", job_indicator },
-    -- ...
-  },
-}
 		local lualine = require("lualine")
 		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
 
-		local colors = {
+        local colors = {
             color0 = "#092236",
             color1 = "#ff5874",
             color2 = "#c3ccdc",
-			color3 = "#1c1e26",
-			color6 = "#a1aab8",
-			color7 = "#828697",
-			color8 = "#ae81ff",
-		}
+            color3 = "#1c1e26",
+            color4 = "#11111B",
+            color6 = "#a1aab8",
+            color7 = "#828697",
+            color8 = "#ae81ff",
+        }
 		local my_lualine_theme = {
 			replace = {
 				a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
-				b = { fg = colors.color2, bg = colors.color3 },
+				b = { fg = colors.color2, bg = colors.color4 },
 			},
 			inactive = {
 				a = { fg = colors.color6, bg = colors.color3, gui = "bold" },
-				b = { fg = colors.color6, bg = colors.color3 },
-				c = { fg = colors.color6, bg = colors.color3 },
+				b = { fg = colors.color6, bg = colors.color4 },
+				c = { fg = colors.color6, bg = colors.color4 },
 			},
 			normal = {
 				a = { fg = colors.color0, bg = colors.color7, gui = "bold" },
-				b = { fg = colors.color2, bg = colors.color3 },
-				c = { fg = colors.color2, bg = colors.color3 },
+				b = { fg = colors.color2, bg = colors.color4 },
+				c = { fg = colors.color2, bg = colors.color4 },
 			},
 			visual = {
 				a = { fg = colors.color0, bg = colors.color8, gui = "bold" },
-				b = { fg = colors.color2, bg = colors.color3 },
+				b = { fg = colors.color2, bg = colors.color4 },
 			},
 			insert = {
 				a = { fg = colors.color0, bg = colors.color2, gui = "bold" },
-				b = { fg = colors.color2, bg = colors.color3 },
+				b = { fg = colors.color2, bg = colors.color4 },
 			},
 		}
 
         local mode = {
             'mode',
             fmt = function(str)
-                -- return ' ' 
-                -- displays only the first character of the mode
-                return ' ' .. str
+                return '' .. str
             end,
         }
 

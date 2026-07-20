@@ -6,6 +6,8 @@ return {
         lazy = false,
         -- NOTE: Options
         opts = {
+            notify = { enabled = false },
+            notifier = { enabled = false },
             styles = {
                 input = {
                     keys = {
@@ -29,9 +31,15 @@ return {
                     frecency = true,
                     cwd_bonus = false,
                 },
+                exclude = {
+                    ".git",
+                    "node_modules",
+                    "dist",
+                    "build",
+                },
                 formatters = {
                     file = {
-                        filename_first = false,
+                        filename_first = true,
                         filename_only = false,
                         icon_width = 2,
                     },
@@ -103,9 +111,11 @@ return {
                 }
             },
             image = {
-                enabled = true,
+                enabled = function()
+                    return vim.bo.filetype == "markdown"
+                end,
                 doc = {
-                    float = true, -- show image on cursor hover
+                    float = false, -- show image on cursor hover
                     inline = false, -- show image inline
                     max_width = 50,
                     max_height = 30,
@@ -125,14 +135,14 @@ return {
                     { section = "header" },
                     { section = "keys", gap = 1, padding = 1 },
                     { section = "startup" },
-                    {
-                        section = "terminal",
-                        cmd = "ascii-image-converter ~/Desktop/Others/profiles.JPG -C -c",
-                        random = 15,
-                        pane = 2,
-                        indent = 15,
-                        height = 20,
-                    },
+                    -- {
+                    --     section = "terminal",
+                    --     cmd = "ascii-image-converter ~/Desktop/Others/profile.png -C -c",
+                    --     random = 15,
+                    --     pane = 2,
+                    --     indent = 15,
+                    --     height = 20,
+                    -- },
                 },
             },
         },
@@ -143,11 +153,7 @@ return {
             { "<leader>rN", function() require("snacks").rename.rename_file() end, desc = "Fast Rename Current File" },
             { "<leader>dB", function() require("snacks").bufdelete() end, desc = "Delete or Close Buffer  (Confirm)" },
 
-            -- Snacks Picke
-            { "<leader>pf", function() require("snacks").picker.files() end, desc = "Find Files (Snacks Picker)" },
-            { "<leader>pcn", function() require("snacks").picker.files({ cwd = "~/.config/nvim/lua" }) end, desc = "Find Config File" },
-            { "<leader>pc", function() require("snacks").picker.files({ cwd = "~/.config/" }) end, desc = "Find Config File" },
-            { "<leader>ps", function() require("snacks").picker.grep() end, desc = "Grep word" },
+            -- Snacks Picker
             { "<leader>pws", function() require("snacks").picker.grep_word() end, desc = "Search Visual selection or Word", mode = { "n", "x" } },
             { "<leader>pk", function() require("snacks").picker.keymaps({ layout = "ivy" }) end, desc = "Search Keymaps (Snacks Picker)" },
 
@@ -165,8 +171,8 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         optional = true,
         keys = {
-            { "<leader>pt", function() require("snacks").picker.todo_comments() end, desc = "Todo" },
-            { "<leader>pT", function() require("snacks").picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
+            { "<leader>pt", function() require("snacks").picker.todo_comments() end, desc = "All" },
+            { "<leader>pT", function() require("snacks").picker.todo_comments({ keywords = { "TODO","FORGETNOT","FIXME" } }) end, desc = "mains" },
         },
     }
 }

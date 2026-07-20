@@ -1,2 +1,2 @@
-require("Lilac.core.options")
-require("Lilac.core.keymaps")
+require("lilac.core.options")
+require("lilac.core.keymaps")

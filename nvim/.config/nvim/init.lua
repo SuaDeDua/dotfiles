@@ -1,11 +1,15 @@
-require("Lilac.core")
-require("Lilac.lazy")
-require("current-theme")
+-- vim ui2
+require("vim._core.ui2").enable({
+	enable = true,
+	msg = {
+		target = "cmd", -- options: cmd(classic), msg(similar to noice)
+		pager = { height = 1 },
+		msg = { height = 0.5, timeout = 4500 },
+		dialog = { height = 0.5 },
+		cmd = { height = 0.5 },
+	},
+})
 
--- If Neovim is running in VSCode mode, load additional key mappings specific to VSCode.
-if vim.g.vscode then
-	require("config.lazy")
-	require("editor.keymaps")
-	require("editor.commands")
-	require("editor.extensions")
-end
+require("lilac.core")
+require("lilac.lazy")
+require("current-theme")
