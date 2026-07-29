@@ -1,0 +1,19 @@
+-- Markdown specific settings
+vim.opt.wrap = true -- Wrap text
+vim.opt.breakindent = true -- Match indent on line break
+vim.opt.linebreak = true -- Line break on whole words
+
+-- Allow j/k when navigating wrapped lines
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+
+-- Spell check
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true
+
+-- Markdown keymaps
+vim.keymap.set('n', '<leader>h1', 'I# <Esc>A #<Esc>') -- make current line h1
+vim.keymap.set('n', '<leader>h2', 'I## <Esc>A ##<Esc>') -- make current line h2
+vim.keymap.set('n', '<leader>h3', 'I### <Esc>A ###<Esc>') -- make current line h3
+vim.keymap.set('n', '<leader>h4', 'I#### <Esc>A ####<Esc>') -- make current line h4
+vim.keymap.set('n', '<leader>h5', 'I##### <Esc>A #####<Esc>') -- make current line h5

@@ -1,15 +1,29 @@
--- vim ui2
-require("vim._core.ui2").enable({
-	enable = true,
-	msg = {
-		target = "cmd", -- options: cmd(classic), msg(similar to noice)
-		pager = { height = 1 },
-		msg = { height = 0.5, timeout = 4500 },
-		dialog = { height = 0.5 },
-		cmd = { height = 0.5 },
-	},
+-- Bootstrap lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- This has to be set before initializing lazy
+vim.g.mapleader = " "
+
+-- Initialize lazy with dynamic loading of anything in the plugins directory
+require("lazy").setup("plugins", {
+   change_detection = {
+    enabled = true, -- automatically check for config file changes and reload the ui
+    notify = false, -- turn off notifications whenever plugin changes are made
+  },
 })
 
-require("lilac.core")
-require("lilac.lazy")
-require("current-theme")
+-- These modules are not loaded by lazy
+require("core.options")
+require("core.keymaps")
+require("core.autocmds")
