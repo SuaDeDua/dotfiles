@@ -22,6 +22,9 @@ return {
 		-- Additional lua configuration, makes nvim stuff amazing!
 		-- https://github.com/folke/neodev.nvim
 		{ "folke/neodev.nvim", opts = {} },
+
+		-- Autocomplete
+		{ "saghen/blink.cmp" },
 	},
 	config = function()
 		require("mason").setup()

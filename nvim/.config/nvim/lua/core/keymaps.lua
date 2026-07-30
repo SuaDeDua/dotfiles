@@ -6,15 +6,15 @@ vim.g.mapleader = " "
 local keymap = vim.keymap
 
 -- Keymap colemak D-H
-vim.keymap.set({ "n", "x", "o" }, "j", "i")
-vim.keymap.set({ "n", "x", "o" }, "J", "I")
-vim.keymap.set({ "n", "x", "o" }, ";", "o")
+keymap.set({ "n", "x", "o" }, "j", "i")
+keymap.set({ "n", "x", "o" }, "J", "I")
+keymap.set({ "n", "x", "o" }, ";", "o")
 
 -- motion keys (left, down, up, right)
-vim.keymap.set({ "n", "x", "o" }, "n", "h")
-vim.keymap.set({ "n", "x", "o" }, "e", "j")
-vim.keymap.set({ "n", "x", "o" }, "i", "k")
-vim.keymap.set({ "n", "x", "o" }, "o", "l")
+keymap.set({ "n", "x", "o" }, "n", "h")
+keymap.set({ "n", "x", "o" }, "e", "j")
+keymap.set({ "n", "x", "o" }, "i", "k")
+keymap.set({ "n", "x", "o" }, "o", "l")
 
 -- General keymaps
 keymap.set("n", "<leader>wq", ":wq<CR>") -- save and quit
