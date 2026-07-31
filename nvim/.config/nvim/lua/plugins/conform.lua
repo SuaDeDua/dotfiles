@@ -3,9 +3,9 @@ return {
 	config = function()
 		require("conform").setup({
 			format_on_save = {
-				-- Nên tăng timeout lên 1000ms vì C# khởi động tool hơi chậm
+				async = false,
 				timeout_ms = 1000,
-				lsp_format = "fallback",
+				lsp_fallback = true,
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },

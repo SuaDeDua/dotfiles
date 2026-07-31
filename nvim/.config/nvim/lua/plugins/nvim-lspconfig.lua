@@ -69,9 +69,15 @@ return {
 		-- There is an issue with mason-tools-installer running with VeryLazy, since it triggers on VimEnter which has already occurred prior to this plugin loading so we need to call install explicitly
 		-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim/issues/39
 		vim.api.nvim_command("MasonToolsInstall")
+		-- NOTE: Setup servers
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		-- blink cmp
+		capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
-		-- local lspconfig = require('lspconfig')
-		local capabilities = require("blink.cmp").get_lsp_capabilities()
+		-- Global LSP settings (applied to all servers)
+		vim.lsp.config("*", {
+			capabilities = capabilities,
+		})
 
 		-- Call setup on each LSP server
 		for _, server in ipairs(require("mason-lspconfig").get_installed_servers()) do
@@ -92,7 +98,6 @@ return {
 					},
 				},
 			},
-			capabilities = capabilities,
 		})
 
 		-- Disable default JDTLS so that ftplugin/java.lua will be the only jdtls instance
