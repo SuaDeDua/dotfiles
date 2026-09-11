@@ -1,34 +1,36 @@
 return {
 	"saghen/blink.cmp",
-	-- BẮT BUỘC: Sử dụng version = '*' để Blink tự động tải lõi Rust đã biên dịch sẵn
-	-- (Bạn sẽ không cần phải tự cài Rust trên máy Mac)
 	version = "*",
 
 	dependencies = {
-		-- Vẫn cần gói này để lấy bộ dữ liệu Snippets có sẵn
 		"rafamadriz/friendly-snippets",
 		"olimorris/codecompanion.nvim",
+		"Mestane/blink-cmp-deps",
 	},
 	opts = {
 		cmdline = {
 			enabled = true,
 			-- use 'inherit' to inherit mappings from top level `keymap` config
 			keymap = { preset = "cmdline" },
-			sources = { "buffer", "cmdline" },
+			-- sources = { "buffer", "cmdline" },
 
 			-- OR explicitly configure per cmd type
 			-- This ends up being equivalent to above since the sources disable themselves automatically
 			-- when not available. You may override their `enabled` functions via
-			-- `sources.providers.cmdline.override.enabled = function() return your_logic end`
+			-- `sources.providers.cmdline.override.enabled = function() return your_logic end,
 
-			-- sources = function()
-			--   local type = vim.fn.getcmdtype()
-			--   -- Search forward and backward
-			--   if type == '/' or type == '?' then return { 'buffer' } end
-			--   -- Commands
-			--   if type == ':' or type == '@' then return { 'cmdline', 'buffer' } end
-			--   return {}
-			-- end,
+			sources = function()
+				local type = vim.fn.getcmdtype()
+				-- Search forward and backward
+				if type == "/" or type == "?" then
+					return { "buffer" }
+				end
+				-- Commands
+				if type == ":" or type == "@" then
+					return { "cmdline", "buffer" }
+				end
+				return {}
+			end,
 
 			completion = {
 				trigger = {
@@ -46,8 +48,6 @@ return {
 				-- Whether to automatically show the window when new completion items are available
 				-- Default is false for cmdline, true for cmdwin (command-line window)
 				menu = {
-					min_width = 120,
-					max_width = 120,
 					auto_show = function(ctx, _)
 						return ctx.mode == "cmdwin"
 					end,
@@ -57,8 +57,7 @@ return {
 			},
 		},
 		keymap = {
-			preset = "none", -- Tắt phím tắt mặc định để tự set
-
+			preset = "none",
 			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 			["<CR>"] = { "accept", "fallback" },
 
@@ -75,7 +74,6 @@ return {
 			["<C-f>"] = { "scroll_documentation_down", "fallback" },
 		},
 
-		-- 2. Cấu hình Giao diện có viền (Bordered) giống cấu hình cũ
 		completion = {
 			menu = {
 				border = "rounded",
@@ -101,11 +99,14 @@ return {
 			documentation = { auto_show = true, window = { border = "rounded" } },
 		},
 
-		-- 3. Cấu hình Nguồn dữ liệu (Sources)
-		-- Blink tích hợp sẵn lsp, path, snippets, buffer ở bên trong, không cần cài thêm plugin ngoài
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer", "codecompanion" },
+			default = { "lsp", "path", "snippets", "buffer", "codecompanion", "deps" },
 			providers = {
+				deps = {
+					name = "Dependencies",
+					module = "blink_deps",
+					async = true,
+				},
 				codecompanion = {
 					name = "CodeCompanion",
 					module = "codecompanion.providers.completion.blink",

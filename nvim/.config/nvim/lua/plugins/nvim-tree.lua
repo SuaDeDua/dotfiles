@@ -8,6 +8,8 @@ return {
 		require("nvim-tree").setup({
 			filters = {
 				dotfiles = false,
+				-- hide file on java(spring boot)
+				custom = { "^.git$", "target", ".gradle", ".classpath", ".project", ".DS_Store" },
 				exclude = { vim.fn.stdpath("config") .. "/lua/custom" },
 			},
 			on_attach = function(bufnr)
@@ -33,7 +35,7 @@ return {
 				vim.keymap.set("n", "A", function()
 					local node = api.tree.get_node_under_cursor()
 					local path = node.type == "directory" and node.absolute_path or vim.fs.dirname(node.absolute_path)
-					require("easy-dotnet").create_new_item(path)
+					require("jc-nvim").create_new_item(path)
 				end, opts("Create file from dotnet template"))
 				vim.keymap.set("n", "<C-a>", function()
 					local node = api.tree.get_node_under_cursor()
@@ -89,6 +91,9 @@ return {
 				enable = true,
 				update_root = false,
 			},
+			sort = {
+				sorter = "case_sensitive",
+			},
 			view = {
 				adaptive_size = true,
 				side = "right",
@@ -111,6 +116,7 @@ return {
 				root_folder_label = false,
 				highlight_git = true,
 				highlight_opened_files = "all",
+				group_empty = true,
 
 				indent_markers = {
 					enable = false,

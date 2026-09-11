@@ -1,4 +1,5 @@
 -- JDTLS (Java LSP) configuration
+---@type any
 local jdtls = require("jdtls")
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = vim.env.HOME .. "/jdtls-workspace/" .. project_name
@@ -19,6 +20,43 @@ vim.list_extend(
 -- Location JavaJDK bin/java to check PATH /usr/libexec/java_home -v 21 or which java
 local java_path = "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin/java"
 
+-- Tìm file launcher .jar động (vì khi Mason update jdtls, tên file jar sẽ thay đổi số phiên bản)
+local launcher_jar =
+	vim.fn.glob(vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
+if launcher_jar == "" then
+	-- Fallback về path tĩnh cũ của bạn nếu không tìm thấy file có số version
+	launcher_jar = vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher.jar"
+end
+
+local on_attach = function(client, bufnr)
+	if client.server_capabilities.documentHighlightProvider then
+		local highlight_augroup = vim.api.nvim_create_augroup("jdtls_highlight", { clear = false })
+		vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+			buffer = bufnr,
+			group = highlight_augroup,
+			callback = vim.lsp.buf.document_highlight,
+		})
+
+		vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+			buffer = bufnr,
+			group = highlight_augroup,
+			callback = vim.lsp.buf.clear_references,
+		})
+	end
+	-- Needed for debugging
+	-- config["on_attach"] = function(client, bufnr)
+	jdtls.setup_dap({ hotcodereplace = "auto" })
+	require("jdtls.dap").setup_dap_main_class_configs()
+
+	-- Auto format code when save
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		buffer = bufnr,
+		callback = function()
+			vim.lsp.buf.format({ async = false, id = client.id })
+		end,
+	})
+end
+
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
 	-- The command that starts the language server
@@ -28,8 +66,8 @@ local config = {
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
 		"-Dosgi.bundles.defaultStartLevel=4",
 		"-Declipse.product=org.eclipse.jdt.ls.core.product",
-		"-Dlog.protocol=true",
-		"-Dlog.level=ALL",
+		-- "-Dlog.protocol=true",
+		"-Dlog.level=ERR",
 		"-javaagent:" .. vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/lombok.jar",
 		"-Xmx4g",
 		"--add-modules=ALL-SYSTEM",
@@ -40,6 +78,7 @@ local config = {
 
 		-- Eclipse jdtls location
 		"-jar",
+		launcher_jar,
 		vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher.jar",
 		"-configuration",
 		vim.env.HOME .. "/.local/share/nvim/mason/packages/jdtls/config_mac_arm",
@@ -50,6 +89,7 @@ local config = {
 	-- This is the default if not provided, you can remove it. Or adjust as needed.
 	-- One dedicated LSP server & client will be started per unique root_dir
 	root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "pom.xml", "build.gradle" }),
+	on_attach = on_attach,
 
 	-- Here you can configure eclipse.jdt.ls specific settings
 	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -132,20 +172,6 @@ local config = {
 		extendedClientCapabilities = jdtls.extendedClientCapabilities,
 	},
 }
-
--- Needed for debugging
-config["on_attach"] = function(client, bufnr)
-	jdtls.setup_dap({ hotcodereplace = "auto" })
-	require("jdtls.dap").setup_dap_main_class_configs()
-
-	-- Auto format code when save
-	vim.api.nvim_create_autocmd("BufWritePre", {
-		buffer = bufnr,
-		callback = function()
-			vim.lsp.buf.format({ async = false, id = client.id })
-		end,
-	})
-end
 
 -- This starts a new client & server, or attaches to an existing client & server based on the `root_dir`.
 jdtls.start_or_attach(config)
