@@ -1,3 +1,9 @@
+# Cấu hình nạp biến môi trường cho IntelliJ IDEA (Tránh bị treo)
+if [ -n "$INTELLIJ_ENVIRONMENT_READER" ]; then
+  source "$HOME/dotfiles/zsh/conf.d/10-exports.zsh"
+  return
+fi
+
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then

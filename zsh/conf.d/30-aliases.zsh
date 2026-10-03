@@ -33,6 +33,7 @@ alias stm='tmux source-file ~/.config/tmux/tmux.conf \;'
 
 # Directories
 alias netp='cd ~/Documents/dotnet/NET-Project/'
+alias jp='cd ~/Documents/java/'
 alias note='nvim-dotnet ~/Documents/my-second-brain/'
 alias dev-habit='nvim-dotnet ~/Documents/NET-Course/dev-habit/'
 
