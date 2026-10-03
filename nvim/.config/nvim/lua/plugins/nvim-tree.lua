@@ -9,7 +9,18 @@ return {
 			filters = {
 				dotfiles = false,
 				-- hide file on java(spring boot)
-				custom = { "^.git$", "target", ".gradle", ".classpath", ".project", ".DS_Store" },
+				custom = {
+					"^.git$",
+					"target",
+					".gradle",
+					".classpath",
+					".factorypath",
+					".mvn",
+					".idea",
+					".settings",
+					".project",
+					".DS_Store",
+				},
 				exclude = { vim.fn.stdpath("config") .. "/lua/custom" },
 			},
 			on_attach = function(bufnr)

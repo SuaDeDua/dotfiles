@@ -1,4 +1,5 @@
 -- JDTLS (Java LSP) configuration
+pcall(vim.treesitter.start)
 ---@type any
 local jdtls = require("jdtls")
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
@@ -22,8 +23,8 @@ local java_path = "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bi
 
 -- Tìm file launcher .jar động (vì khi Mason update jdtls, tên file jar sẽ thay đổi số phiên bản)
 local launcher_jar =
-	vim.fn.glob(vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
-if launcher_jar == "" then
+	vim.fn.glob(vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher_*.jar", true, true)[1]
+if not launcher_jar then
 	-- Fallback về path tĩnh cũ của bạn nếu không tìm thấy file có số version
 	launcher_jar = vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher.jar"
 end
@@ -79,7 +80,6 @@ local config = {
 		-- Eclipse jdtls location
 		"-jar",
 		launcher_jar,
-		vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher.jar",
 		"-configuration",
 		vim.env.HOME .. "/.local/share/nvim/mason/packages/jdtls/config_mac_arm",
 		"-data",

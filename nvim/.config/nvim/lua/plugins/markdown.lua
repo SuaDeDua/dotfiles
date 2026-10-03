@@ -1,0 +1,50 @@
+return {
+	"MeanderingProgrammer/render-markdown.nvim",
+	-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
+	-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+	dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+	---@module 'render-markdown'
+	---@type render.md.UserConfig
+	opts = {
+		code = {
+			enabled = true,
+			render_modes = false,
+			sign = true,
+			conceal_delimiters = true,
+			language = true,
+			position = "left",
+			language_icon = true,
+			language_name = true,
+			language_info = true,
+			language_pad = 0,
+			disable = {},
+			disable_background = { "diff" },
+			background_inset = 1,
+			width = "block",
+			left_margin = 0,
+			left_pad = 2,
+			right_pad = 4,
+			min_width = 0,
+			border = "hide",
+			language_border = "█",
+			language_left = "",
+			language_right = "",
+			above = "▄",
+			below = "▀",
+			inline = true,
+			inline_left = "",
+			inline_right = "",
+			inline_pad = 0,
+			priority = 140,
+			highlight = "RenderMarkdownCode",
+			highlight_info = "RenderMarkdownCodeInfo",
+			highlight_language = nil,
+			highlight_border = "RenderMarkdownCodeBorder",
+			highlight_fallback = "RenderMarkdownCodeFallback",
+			highlight_inline = "RenderMarkdownCodeInline",
+			highlight_inline_left = nil,
+			highlight_inline_right = nil,
+			style = "full",
+		},
+	},
+}

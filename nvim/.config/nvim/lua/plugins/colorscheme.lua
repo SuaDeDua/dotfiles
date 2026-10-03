@@ -83,18 +83,6 @@ return {
 					-- WhichKey / Others
 					WhichKeyFloat = { bg = "NONE" },
 
-					-- Config color syntax java
-					-- ()
-					javaParen = { fg = "#FF79C6" },
-					javaParenT = { fg = "#D6ACFF" },
-					-- javaParenT1 = { fg = "#FF79C6" },
-					javaParen1 = { fg = "#FF79C6" },
-
-					-- {}
-					javaBlock = { fg = "#FF79C6" },
-					javaBlockOther = { fg = "#FF79C6" },
-					javaBlockStart = { fg = "#8BE9FD" },
-
 					["@punctuation.bracket"] = { fg = "#A4FFFF" },
 
 					-- Đổi màu dấu phẩy (,), dấu chấm phẩy (;), dấu chấm(.)
