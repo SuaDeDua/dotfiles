@@ -5,6 +5,8 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap
 
+pcall(vim.keymap.del, { "x", "o" }, "in")
+
 -- Keymap colemak D-H
 keymap.set({ "n", "x", "o" }, "j", "i")
 keymap.set({ "n", "x", "o" }, "J", "I")
@@ -13,7 +15,7 @@ keymap.set({ "n", "x", "o" }, ";", "o")
 -- motion keys (left, down, up, right)
 keymap.set({ "n", "x", "o" }, "n", "h")
 keymap.set({ "n", "x", "o" }, "e", "j")
-keymap.set({ "n", "x", "o" }, "i", "k")
+keymap.set({ "n", "x", "o" }, "i", "k", { nowait = true })
 keymap.set({ "n", "x", "o" }, "o", "l")
 
 -- General keymaps
@@ -306,3 +308,8 @@ end, {
 
 -- java run
 vim.keymap.set("n", "<F5>", ":!java %<CR>", { desc = "Run Java file", silent = false })
+
+-- ecolog
+-- keymap.set("n", "<leader>ge", "<cmd>EcologGoto<cr>", { desc = "Go to env file" })
+-- keymap.set("n", "<leader>ep", "<cmd>EcologPeek<cr>", { desc = "Ecolog peek variable" })
+-- keymap.set("n", "<leader>es", "<cmd>EcologSelect<cr>", { desc = "Switch env file" })

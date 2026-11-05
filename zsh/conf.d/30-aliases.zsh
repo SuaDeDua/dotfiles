@@ -4,13 +4,23 @@ alias nlof='~/scripts/fzf_listoldfiles.sh'
 alias fp='fzf --preview="bat --color=always {}"'
 alias fv='nvim $(fzf -m --preview="bat --color=always {}")'
 
+# Eza
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+alias ltree="eza --tree --level=2  --icons --git"
+
+# superfile
+alias spf="spf -c ~/.config/spf/config.toml --hotkey-file ~/.config/spf/hotkey.toml"
+
 # java aliases
 alias mbuild="mvn clean install -DskipTests"
 alias mrun="mvn spring-boot:run"
 alias mstart="mvn clean install -DskipTests && mvn spring-boot:run -pl xxxx-start -am"
 
+# workmux
+alias wm="workmux"
+
 # Neovim & editors
-alias v=nvim
 alias vim=nvim
 alias nv=nvim
 alias n=nvim
@@ -36,8 +46,14 @@ alias netp='cd ~/Documents/dotnet/NET-Project/'
 alias jp='cd ~/Documents/java/'
 alias note='nvim-dotnet ~/Documents/my-second-brain/'
 alias dev-habit='nvim-dotnet ~/Documents/NET-Course/dev-habit/'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
 
 # Utilities
+alias cd='z'
 alias os='nvim-dotnet ~/.zshrc'
 alias ss='source ~/.zshrc'
 alias k='kubectl'

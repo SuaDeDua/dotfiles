@@ -1,16 +1,25 @@
-# Zsh completions
-fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
-# Không gọi compinit ở đây vì Oh-My-Zsh đã tự gọi và có bộ đệm (cache) giúp nhanh hơn
+# Cấu hình Tab Autocomplete (Menu chọn bằng phím mũi tên / Tab, không phân biệt hoa thường)
+zmodload -i zsh/complist
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# Oh My Zsh installation
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-# Đã xóa zsh-autocomplete (rất nặng) và fast-syntax-highlighting (xung đột)
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-256color)
-source $ZSH/oh-my-zsh.sh
+# zsh-autosuggestions (Gợi ý lệnh mờ từ lịch sử)
+if [ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+  ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+fi
 
-# Syntax highlighting (Đã được nạp qua plugins của Oh-My-Zsh ở trên nên không cần source thủ công nữa)
-# source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Television installation
+if command -v tv &>/dev/null; then
+  eval "$(tv init zsh)"
+fi
 
-# fzf
+# Zoxide installation
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Fzf
 eval "$(fzf --zsh 2>/dev/null)"

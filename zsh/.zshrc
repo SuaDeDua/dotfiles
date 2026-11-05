@@ -1,14 +1,26 @@
+typeset -U PATH path
+typeset -U fpath FPATH
+
+# Claude
+export ANTHROPIC_BASE_URL="http://192.168.4.44:20128/v1"
+export ANTHROPIC_AUTH_TOKEN="sk-3424d9cdb49679ac-27af7y-7f46d971"
+
 # Cấu hình nạp biến môi trường cho IntelliJ IDEA (Tránh bị treo)
 if [ -n "$INTELLIJ_ENVIRONMENT_READER" ]; then
   source "$HOME/dotfiles/zsh/conf.d/10-exports.zsh"
   return
 fi
 
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+export EDITOR=/opt/homebrew/bin/nvim
+
+# Completion paths & initialization
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+autoload -Uz compinit && compinit -C
+
+# Starship prompt
+eval "$(starship init zsh)"
 
 # ==============================================================================
 # Refactored ZSH Configuration
@@ -20,6 +32,3 @@ if [[ -d "$ZSH_CONF_DIR" ]]; then
     source "$config_file"
   done
 fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -16,6 +16,7 @@ return {
 				"lua",
 				"markdown",
 				"bash",
+				"hurl",
 			},
 
 			-- Tự động cài parser nếu bạn mở một file ngôn ngữ mới chưa có sẵn

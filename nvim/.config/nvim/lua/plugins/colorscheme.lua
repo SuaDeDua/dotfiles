@@ -83,7 +83,7 @@ return {
 					-- WhichKey / Others
 					WhichKeyFloat = { bg = "NONE" },
 
-					["@punctuation.bracket"] = { fg = "#A4FFFF" },
+					["@punctuation.bracket"] = { fg = "#FF79C6" },
 
 					-- Đổi màu dấu phẩy (,), dấu chấm phẩy (;), dấu chấm(.)
 					["@punctuation.delimiter"] = { fg = "#FF79C6" },

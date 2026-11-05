@@ -1,0 +1,223 @@
+2026-08-20T02:39:09.038422Z  INFO herdr::platform::macos: raised server file descriptor soft limit previous=256 target=8192
+2026-08-20T02:39:09.039000Z  INFO herdr::api::server: api server listening path=/Users/suadedua/.config/herdr/herdr.sock
+2026-08-20T02:39:09.040384Z  INFO herdr::app: using pane scrollback configuration pane_scrollback_limit_bytes=10000000
+2026-08-20T02:39:09.147019Z  INFO herdr::logging: checking for updates event="update.check.start" subsystem="update" outcome="started"
+2026-08-20T02:39:09.154167Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=1 rows=40 cols=120 scrollback_limit_bytes=10000000
+2026-08-20T02:39:09.157287Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=1 pid=24458
+2026-08-20T02:39:09.157827Z  INFO herdr::logging: workspace created event="workspace.create" subsystem="workspace" outcome="ok" workspace_id="w1" pane_id=1
+2026-08-20T02:39:09.157868Z  INFO herdr::logging: workspace focused event="workspace.focus" subsystem="workspace" outcome="ok" workspace_id="w1"
+2026-08-20T02:39:09.157929Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-08-20T02:39:09.157975Z  INFO herdr::server::headless: created startup workspace cwd=/Users/suadedua
+2026-08-20T02:39:09.158129Z  INFO herdr::server::headless: client protocol socket listening path=/Users/suadedua/.config/herdr/herdr-client.sock
+2026-08-20T02:39:09.158159Z  INFO herdr::server::headless: herdr server started api_socket=/Users/suadedua/.config/herdr/herdr.sock client_socket=/Users/suadedua/.config/herdr/herdr-client.sock
+2026-08-20T02:39:09.158727Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="server" outcome="started" pid=24421
+2026-08-20T02:39:09.412352Z  INFO herdr::server::headless: client connected client_id=2 cols=155 rows=38 cell_width_px=0 cell_height_px=0 render_encoding=SemanticFrame
+2026-08-20T02:39:14.161016Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=1
+2026-08-20T02:39:53.737260Z  INFO herdr::logging: workspace focused event="workspace.focus" subsystem="workspace" outcome="ok" workspace_id="w1"
+2026-08-20T02:39:53.737556Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-08-20T02:39:54.265817Z  INFO herdr::logging: workspace focused event="workspace.focus" subsystem="workspace" outcome="ok" workspace_id="w1"
+2026-08-20T02:39:54.265906Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-08-20T02:39:54.429463Z  INFO herdr::logging: workspace focused event="workspace.focus" subsystem="workspace" outcome="ok" workspace_id="w1"
+2026-08-20T02:39:54.429527Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-08-20T02:39:59.433637Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=1
+2026-08-20T02:40:05.418881Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=1
+2026-08-20T02:41:19.972358Z  INFO herdr::server::headless: server shutdown initiated
+2026-08-20T02:41:20.027407Z  INFO herdr::server::headless: completing server shutdown
+2026-08-20T02:41:20.081791Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=1
+2026-08-20T02:41:20.081826Z  INFO herdr::server::headless: headless server exiting
+2026-08-20T02:41:20.084545Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=1 status="ExitStatus { code: 1, signal: None }"
+2026-08-20T02:41:20.107278Z  INFO herdr::pane: pane session terminated pane=1 pid=24458 signal=Hangup
+2026-08-20T02:41:20.107821Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="server" outcome="completed" pid=24421
+2026-10-22T03:27:30.282102Z  INFO herdr::platform::macos: raised server file descriptor soft limit previous=256 target=8192
+2026-10-22T03:27:30.283020Z  INFO herdr::api::server: api server listening path=/Users/suadedua/.config/herdr/herdr.sock
+2026-10-22T03:27:30.284429Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=1 rows=24 cols=80 scrollback_limit_bytes=10000000
+2026-10-22T03:27:30.287112Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=1 pid=27265
+2026-10-22T03:27:30.287507Z  INFO herdr::logging: session restore evaluated event="persist.restore" subsystem="persist" outcome="ok" workspaces=1
+2026-10-22T03:27:30.287546Z  INFO herdr::app: using pane scrollback configuration pane_scrollback_limit_bytes=10000000
+2026-10-22T03:27:30.650566Z  INFO herdr::logging: checking for updates event="update.check.start" subsystem="update" outcome="started"
+2026-10-22T03:27:30.657234Z  INFO herdr::server::headless: restored session already has workspaces; ignoring startup cwd cwd=/Users/suadedua
+2026-10-22T03:27:30.657381Z  INFO herdr::server::headless: client protocol socket listening path=/Users/suadedua/.config/herdr/herdr-client.sock
+2026-10-22T03:27:30.657400Z  INFO herdr::server::headless: herdr server started api_socket=/Users/suadedua/.config/herdr/herdr.sock client_socket=/Users/suadedua/.config/herdr/herdr-client.sock
+2026-10-22T03:27:30.661229Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="server" outcome="started" pid=27264
+2026-10-22T03:27:30.663033Z  INFO herdr::server::headless: client connected client_id=2 cols=155 rows=38 cell_width_px=0 cell_height_px=0 render_encoding=SemanticFrame
+2026-10-22T03:27:30.826108Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T03:27:30.826137Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T03:27:30.898502Z  INFO herdr::logging: update available event="update.available" subsystem="update" outcome="ok" version="0.9.5"
+2026-10-22T03:27:31.066440Z  INFO herdr::update: auto-update check: v0.9.5 available through Homebrew, waiting for explicit install
+2026-10-22T03:35:09.018387Z  INFO herdr::server::headless: client detach requested via keybind client_id=2
+2026-10-22T03:35:09.020917Z  INFO herdr::server::headless: client disconnected client_id=2
+2026-10-22T03:57:30.833935Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T03:57:30.835276Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T04:27:30.870418Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T04:27:30.871648Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T04:51:51.039607Z  INFO herdr::server::headless: client connected client_id=4 cols=155 rows=38 cell_width_px=0 cell_height_px=0 render_encoding=SemanticFrame
+2026-10-22T04:52:02.994814Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=1
+2026-10-22T04:52:11.502966Z  INFO herdr::server::headless: client detach requested via keybind client_id=4
+2026-10-22T04:52:11.504424Z  INFO herdr::server::headless: client disconnected client_id=4
+2026-10-22T04:57:30.923712Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T04:57:30.925383Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T05:27:30.831757Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T05:27:30.832251Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T05:57:30.872951Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T05:57:30.873481Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T06:27:31.080820Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T06:27:31.082579Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T06:57:30.995316Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T06:57:30.997102Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T07:27:44.017417Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T07:27:44.019733Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T07:57:43.983862Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T07:57:43.985123Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T08:27:44.028894Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T08:27:44.031224Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T08:45:25.892584Z  INFO herdr::server::headless: client connected client_id=6 cols=123 rows=34 cell_width_px=0 cell_height_px=0 render_encoding=SemanticFrame
+2026-10-22T08:45:38.633904Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=2 rows=33 cols=97 scrollback_limit_bytes=10000000
+2026-10-22T08:45:38.644092Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=2 pid=81523
+2026-10-22T08:45:38.644503Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t2"
+2026-10-22T08:45:42.015729Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-10-22T08:45:42.536007Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-10-22T08:45:44.521390Z  INFO herdr::logging: workspace focused event="workspace.focus" subsystem="workspace" outcome="ok" workspace_id="w1"
+2026-10-22T08:45:44.521516Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-10-22T08:45:44.521639Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-10-22T08:45:44.529839Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=1 status="ExitStatus { code: 1, signal: None }"
+2026-10-22T08:45:44.530097Z  INFO herdr::pane: pane session terminated pane=1 pid=27265 signal=Hangup
+2026-10-22T08:45:44.531344Z  WARN herdr::app::actions: PaneDied for unknown pane pane=1
+2026-10-22T08:45:49.543530Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=1
+2026-10-22T08:45:50.069014Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=3 rows=33 cols=97 scrollback_limit_bytes=10000000
+2026-10-22T08:45:50.085528Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=3 pid=81932
+2026-10-22T08:45:50.094610Z  INFO herdr::logging: workspace created event="workspace.create" subsystem="workspace" outcome="ok" workspace_id="w2" pane_id=3
+2026-10-22T08:45:50.094716Z  INFO herdr::logging: workspace focused event="workspace.focus" subsystem="workspace" outcome="ok" workspace_id="w2"
+2026-10-22T08:45:50.094748Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w2" tab_id="w2:t1"
+2026-10-22T08:45:55.103326Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=2
+2026-10-22T08:46:01.068990Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=2
+2026-10-22T08:46:15.717811Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=2
+2026-10-22T08:57:44.069484Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T08:57:44.071773Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T09:45:16.731429Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T09:45:16.733813Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-22T10:04:32.689501Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=2
+2026-10-22T10:04:38.465075Z  INFO herdr::server::headless: client detach requested via keybind client_id=6
+2026-10-22T10:04:38.476816Z  INFO herdr::server::headless: client disconnected client_id=6
+2026-10-22T10:20:28.586353Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-22T10:20:28.587885Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T01:21:26.686544Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T01:21:26.686883Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T01:51:27.235100Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T01:51:27.235625Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T02:21:27.349199Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T02:21:27.350393Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T02:51:27.417217Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T02:51:27.417765Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T03:21:27.351400Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T03:21:27.352163Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T03:59:15.512457Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T03:59:15.513140Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T04:29:15.580917Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T04:29:15.582567Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T04:59:15.573017Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T04:59:15.574212Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T05:29:15.505478Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T05:29:15.507665Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T05:59:15.499884Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T05:59:15.501101Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T06:29:15.597691Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T06:29:15.598243Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T06:59:15.634050Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T06:59:15.635470Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T07:29:17.020797Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T07:29:17.022369Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T07:29:33.221035Z  WARN herdr::detect::manifest_update: agent detection manifest update failed for agent agent="kiro" error=fetch failed: failed to fetch https://herdr.dev/agent-detection/kiro.toml
+2026-10-23T07:59:15.770104Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T07:59:15.772218Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T08:43:37.452896Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T08:43:37.453837Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T09:24:02.270246Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T09:24:02.271964Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T10:38:49.505410Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T10:38:49.506066Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T11:27:05.270032Z  WARN herdr::detect::manifest_update: agent detection manifest update failed: failed to fetch https://herdr.dev/agent-detection/index.toml
+2026-10-23T12:00:44.298237Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T12:00:44.298504Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-23T18:37:08.811552Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-23T18:37:08.813671Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T02:29:42.304226Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T02:29:42.306083Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T03:05:30.611847Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T03:05:30.612628Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T03:35:30.492948Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T03:35:30.493796Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T04:05:30.951161Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T04:05:30.954060Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T04:35:32.454413Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T04:35:32.457393Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T05:05:31.053385Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T05:05:31.053879Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T05:35:30.893902Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T05:35:30.895683Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T06:05:30.483307Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T06:05:30.484888Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T06:35:30.460721Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T06:35:30.462560Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T07:05:30.564112Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T07:05:30.564665Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T07:35:31.197732Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T07:35:31.198759Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T08:05:30.686855Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T08:05:30.687323Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T08:35:30.559898Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T08:35:30.561774Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T09:05:31.016714Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T09:05:31.018491Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T09:35:30.536041Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T09:35:30.537712Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T10:05:31.149694Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T10:05:31.151407Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T10:35:30.570186Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T10:35:30.571963Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T11:05:30.785715Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T11:05:30.786148Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T11:35:30.945469Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T11:35:30.947187Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T12:05:30.863014Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T12:05:30.864767Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T12:35:32.048280Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T12:35:32.050211Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T13:05:36.107276Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T13:05:36.107725Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T13:35:30.628034Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T13:35:30.628810Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T14:05:33.603678Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T14:05:33.605476Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T14:35:31.472091Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T14:35:31.473928Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T15:05:33.479986Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T15:05:33.481191Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T15:35:30.911601Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T15:35:30.914194Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-24T21:43:58.319693Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-24T21:43:58.320758Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T06:04:16.723325Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T06:04:16.725169Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T13:31:36.519679Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T13:31:36.520779Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T14:01:36.924387Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T14:01:36.928512Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T14:31:36.913843Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T14:31:36.914271Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T15:01:36.146716Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T15:01:36.147154Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T15:31:36.918101Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T15:31:36.918521Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T16:01:36.613374Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T16:01:36.616757Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T16:31:37.478689Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="letta"
+2026-10-25T16:31:37.479925Z  WARN herdr::detect::manifest_update: skipping unknown remote manifest agent agent="muse"
+2026-10-25T17:01:05.914513Z  INFO herdr::server::headless: server shutdown initiated
+2026-10-25T17:01:06.141785Z  INFO herdr::server::headless: completing server shutdown
+2026-10-25T17:01:06.190260Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/Users/suadedua/.config/herdr/session.json workspaces=2
+2026-10-25T17:01:06.190553Z  INFO herdr::server::headless: headless server exiting
+2026-10-25T17:01:06.228017Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=3 status="ExitStatus { code: 1, signal: None }"
+2026-10-25T17:01:06.239326Z  INFO herdr::pane: pane session terminated pane=3 pid=81932 signal=Hangup
+2026-10-25T17:01:06.251540Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=2 status="ExitStatus { code: 1, signal: None }"
+2026-10-25T17:01:06.267105Z  INFO herdr::pane: pane session terminated pane=2 pid=81523 signal=Hangup
+2026-10-25T17:01:06.270744Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="server" outcome="completed" pid=27264

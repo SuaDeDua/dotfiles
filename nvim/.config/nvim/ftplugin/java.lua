@@ -2,8 +2,15 @@
 pcall(vim.treesitter.start)
 ---@type any
 local jdtls = require("jdtls")
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-local workspace_dir = vim.env.HOME .. "/jdtls-workspace/" .. project_name
+-- Ưu tiên tìm thư mục gốc chứa .git hoặc mvnw để quản lý đúng multi-module Maven
+local root_markers = { ".git", "mvnw", "gradlew" }
+local root_dir = require("jdtls.setup").find_root(root_markers)
+if not root_dir then
+	root_dir = require("jdtls.setup").find_root({ "pom.xml", "build.gradle" }) or vim.fn.getcwd()
+end
+local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+-- Thêm mã băm (hash) để đảm bảo 100% workspace không bị đụng độ giữa các dự án hoặc sub-module
+local workspace_dir = vim.env.HOME .. "/jdtls-workspace/" .. project_name .. "-" .. vim.fn.sha256(root_dir):sub(1, 8)
 
 -- Needed for debugging
 local bundles = {
@@ -22,8 +29,11 @@ vim.list_extend(
 local java_path = "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin/java"
 
 -- Tìm file launcher .jar động (vì khi Mason update jdtls, tên file jar sẽ thay đổi số phiên bản)
-local launcher_jar =
-	vim.fn.glob(vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher_*.jar", true, true)[1]
+local launcher_jar = vim.fn.glob(
+	vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher_*.jar",
+	true,
+	true
+)[1]
 if not launcher_jar then
 	-- Fallback về path tĩnh cũ của bạn nếu không tìm thấy file có số version
 	launcher_jar = vim.env.HOME .. "/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher.jar"
@@ -88,7 +98,7 @@ local config = {
 
 	-- This is the default if not provided, you can remove it. Or adjust as needed.
 	-- One dedicated LSP server & client will be started per unique root_dir
-	root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "pom.xml", "build.gradle" }),
+	root_dir = root_dir,
 	on_attach = on_attach,
 
 	-- Here you can configure eclipse.jdt.ls specific settings
@@ -104,8 +114,8 @@ local config = {
 				-- The runtime name parameters need to match specific Java execution environments.  See https://github.com/tamago324/nlsp-settings.nvim/blob/2a52e793d4f293c0e1d61ee5794e3ff62bfbbb5d/schemas/_generated/jdtls.json#L317-L334
 				runtimes = {
 					{
-						name = "JavaSE-24",
-						path = "/Library/Java/JavaVirtualMachines/jdk-24.jdk/Contents/Home",
+						name = "JavaSE-21",
+						path = "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home",
 					},
 				},
 			},
@@ -124,11 +134,10 @@ local config = {
 			signatureHelp = { enabled = true },
 			format = {
 				enabled = true,
-				-- Formatting works by default, but you can refer to a specific file/URL if you choose
-				-- settings = {
-				--   url = "https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml",
-				--   profile = "GoogleStyle",
-				-- },
+				settings = {
+					url = "file://" .. vim.env.HOME .. "/.config/nvim/eclipse-formatter.xml",
+					profile = "GoogleStyle",
+				},
 			},
 			completion = {
 				favoriteStaticMembers = {

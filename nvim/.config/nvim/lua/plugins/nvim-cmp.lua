@@ -5,7 +5,6 @@ return {
 	dependencies = {
 		"rafamadriz/friendly-snippets",
 		"olimorris/codecompanion.nvim",
-		"Mestane/blink-cmp-deps",
 	},
 	opts = {
 		cmdline = {
@@ -100,13 +99,8 @@ return {
 		},
 
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer", "codecompanion", "deps" },
+			default = { "lsp", "path", "snippets", "buffer", "codecompanion" },
 			providers = {
-				deps = {
-					name = "Dependencies",
-					module = "blink_deps",
-					async = true,
-				},
 				codecompanion = {
 					name = "CodeCompanion",
 					module = "codecompanion.providers.completion.blink",

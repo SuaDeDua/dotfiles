@@ -9,7 +9,7 @@ return {
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
-				java = { "google-java-format" },
+				-- java: để trống để conform tự động fallback về JDTLS (dùng eclipse-formatter.xml)
 				graphql = { "prettier" },
 				javascript = { "prettier" },
 				html = { "prettier" },
