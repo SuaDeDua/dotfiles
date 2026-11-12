@@ -2,7 +2,7 @@ return {
 	"GustavEikaas/easy-dotnet.nvim",
 	-- 'nvim-telescope/telescope.nvim' or 'ibhagwan/fzf-lua' or 'folke/snacks.nvim'
 	-- are highly recommended for a better experience
-	dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap", "folke/snacks.nvim" },
+	dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap", "folke/snacks.nvim", "saghen/blink.cmp" },
 	config = function()
 		local dotnet = require("easy-dotnet")
 		-- Options are not required
@@ -47,7 +47,16 @@ return {
 						request_timeout = 5000,
 					},
 				},
-				config = {},
+				config = {
+					capabilities = require("blink.cmp").get_lsp_capabilities(),
+					settings = {
+						["csharp|completion"] = {
+							dotnet_show_completion_items_from_unimported_namespaces = true,
+							dotnet_completion_items_from_unimported_namespaces_commit_behavior = "alwaysAddImport",
+							dotnet_trigger_completion_in_argument_lists = true,
+						},
+					},
+				},
 			},
 			debugger = {
 				-- Path to custom coreclr DAP adapter
@@ -125,10 +134,10 @@ return {
 			fsproj_mappings = true,
 			auto_bootstrap_namespace = {
 				--block_scoped, file_scoped
-				type = "block_scoped",
-				enabled = true,
+				type = "file_scoped",
+				enabled = false,
 				use_clipboard_json = {
-					behavior = "prompt", --'auto' | 'prompt' | 'never',
+					behavior = "never", --'auto' | 'prompt' | 'never',
 					register = "+", -- which register to check
 				},
 			},

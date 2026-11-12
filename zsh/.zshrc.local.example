@@ -1,0 +1,5 @@
+# Copy to .zshrc.local and fill in your private values.
+# This example is safe to commit; .zshrc.local is ignored by Git.
+# export ANTHROPIC_BASE_URL="https://your-api-host/v1"
+# export ANTHROPIC_AUTH_TOKEN="your-token"
+# export OPENAI_API_KEY="your-api-key"

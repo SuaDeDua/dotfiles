@@ -23,8 +23,9 @@ keymap.set("n", "<leader>wq", ":wq<CR>") -- save and quit
 keymap.set("n", "<leader>qq", ":q!<CR>") -- quit without saving
 keymap.set("n", "<leader>ww", ":w<CR>") -- save
 keymap.set("n", "gx", ":!open <c-r><c-a><CR>") -- open URL under cursor
-keymap.set("v", "E", ":m '>+1<CR>gv=gv") -- moves lines down in visual selection
-keymap.set("v", "I", ":m '<-2<CR>gv=gv") -- moves lines up in visual selection
+-- Visual only: Select mode must accept typed letters inside snippet placeholders.
+keymap.set("x", "E", ":m '>+1<CR>gv=gv") -- moves lines down in visual selection
+keymap.set("x", "I", ":m '<-2<CR>gv=gv") -- moves lines up in visual selection
 keymap.set("n", "l", "nzzzv") -- jump to next search
 keymap.set("n", "L", "Nzzzv") -- jump to prev search
 
@@ -308,7 +309,8 @@ end, {
 
 -- java run
 vim.keymap.set("n", "<F5>", ":!java %<CR>", { desc = "Run Java file", silent = false })
-
+-- Bôi đen các biến (VD: name,) rồi nhấn <leader>mi để tự bung thành Name = name,
+vim.keymap.set("v", "<leader>mi", ":s/\\v(\\w+)/\\u\\1 = \\1/<CR>==", { desc = "Map Property = param" })
 -- ecolog
 -- keymap.set("n", "<leader>ge", "<cmd>EcologGoto<cr>", { desc = "Go to env file" })
 -- keymap.set("n", "<leader>ep", "<cmd>EcologPeek<cr>", { desc = "Ecolog peek variable" })

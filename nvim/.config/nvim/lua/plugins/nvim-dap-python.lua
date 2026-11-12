@@ -1,14 +1,19 @@
 return {
-  -- https://github.com/mfussenegger/nvim-dap-python
-  'mfussenegger/nvim-dap-python',
-  ft = 'python',
-  dependencies = {
-    -- https://github.com/mfussenegger/nvim-dap
-    'mfussenegger/nvim-dap',
-  },
-  config = function ()
-    -- Update the path passed to setup to point to your system or virtual env python executable
-    -- require('dap-python').setup('/usr/bin/python3')
-    require('dap-python').setup('~/.pyenv/versions/3.10.14/bin/python3')
-  end
+	"mfussenegger/nvim-dap-python",
+	ft = "python",
+	dependencies = { "mfussenegger/nvim-dap" },
+	config = function()
+		-- Debugger runtime is separate from the project's Python/virtualenv.
+		local python = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+		if vim.fn.executable(python) == 1 then
+			require("dap-python").setup(python)
+		elseif vim.fn.executable("debugpy-adapter") == 1 then
+			require("dap-python").setup("debugpy-adapter")
+		else
+			vim.notify(
+				"Python debugger unavailable. Run :MasonInstall debugpy, then reopen Neovim.",
+				vim.log.levels.WARN
+			)
+		end
+	end,
 }

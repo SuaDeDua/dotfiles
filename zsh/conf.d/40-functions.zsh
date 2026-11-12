@@ -69,3 +69,10 @@ qss() {
     tmux attach-session -t "$name"
   fi       
 }
+appid() {
+    if [ -z "$1" ]; then
+        echo "Name application"
+    else
+        osascript -e "id of app \"$1\""
+    fi
+}

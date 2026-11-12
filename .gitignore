@@ -1,0 +1,6 @@
+/tmux/.config/tmux/.tmux
+.git
+.DS_Store
+
+# Private Zsh configuration (API keys, tokens, machine-specific settings)
+/zsh/.zshrc.local

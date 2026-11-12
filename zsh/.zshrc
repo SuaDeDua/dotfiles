@@ -1,9 +1,10 @@
 typeset -U PATH path
 typeset -U fpath FPATH
 
-# Claude
-export ANTHROPIC_BASE_URL="http://192.168.4.44:20128/v1"
-export ANTHROPIC_AUTH_TOKEN="sk-3424d9cdb49679ac-27af7y-7f46d971"
+# Private environment variables (also available to IntelliJ).
+if [[ -r "$HOME/dotfiles/zsh/.zshrc.local" ]]; then
+  source "$HOME/dotfiles/zsh/.zshrc.local"
+fi
 
 # Cấu hình nạp biến môi trường cho IntelliJ IDEA (Tránh bị treo)
 if [ -n "$INTELLIJ_ENVIRONMENT_READER" ]; then

@@ -5,12 +5,45 @@ return {
 	dependencies = {
 		"rafamadriz/friendly-snippets",
 		"olimorris/codecompanion.nvim",
+		{
+			"L3MON4D3/LuaSnip",
+			version = "v2.*",
+			config = function()
+				require("luasnip.loaders.from_vscode").lazy_load()
+				require("luasnip.loaders.from_lua").lazy_load({
+					paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
+				})
+			end,
+		},
 	},
 	opts = {
+		snippets = {
+			preset = "luasnip",
+		},
 		cmdline = {
+
 			enabled = true,
 			-- use 'inherit' to inherit mappings from top level `keymap` config
-			keymap = { preset = "cmdline" },
+			keymap = {
+				preset = "cmdline",
+				-- Insert the selected preview as well as opening the menu.
+				["<Tab>"] = { "show_and_insert_or_accept_single", "select_next", "fallback" },
+				["<S-Tab>"] = {
+					function(cmp)
+						return cmp.show_and_insert_or_accept_single({ initial_selected_item_idx = -1 })
+					end,
+					"select_prev",
+					"fallback",
+				},
+				["<C-e>"] = { "show_and_insert_or_accept_single", "select_next", "fallback" },
+				["<C-i>"] = {
+					function(cmp)
+						return cmp.show_and_insert_or_accept_single({ initial_selected_item_idx = -1 })
+					end,
+					"select_prev",
+					"fallback",
+				},
+			},
 			-- sources = { "buffer", "cmdline" },
 
 			-- OR explicitly configure per cmd type
@@ -60,9 +93,13 @@ return {
 			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 			["<CR>"] = { "accept", "fallback" },
 
-			-- Tab/S-Tab để chọn item và nhảy qua lại giữa các tham số (arguments) của Snippet
+			-- Menu navigation first; jump snippet arguments when the menu is closed.
 			["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
 			["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+
+			-- Colemak D-H: e = down, i = up (requires extended terminal keys for C-i).
+			["<C-e>"] = { "select_next", "snippet_forward", "fallback" },
+			["<C-i>"] = { "select_prev", "snippet_backward", "fallback" },
 
 			-- C-j và C-k để di chuyển lên xuống
 			["<C-j>"] = { "select_next", "fallback" },
@@ -72,6 +109,8 @@ return {
 			["<C-b>"] = { "scroll_documentation_up", "fallback" },
 			["<C-f>"] = { "scroll_documentation_down", "fallback" },
 		},
+
+		signature = { enabled = true, window = { border = "rounded" } },
 
 		completion = {
 			menu = {
@@ -101,6 +140,11 @@ return {
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer", "codecompanion" },
 			providers = {
+				lsp = {
+					transform_items = function(ctx, items)
+						return require("core.csharp-completion").transform_items(ctx, items)
+					end,
+				},
 				codecompanion = {
 					name = "CodeCompanion",
 					module = "codecompanion.providers.completion.blink",

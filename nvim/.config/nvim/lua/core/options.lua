@@ -15,6 +15,12 @@ vim.opt.wrap = false
 -- Enable persistent undo history
 vim.opt.undofile = true
 
+-- Disable swap file (avoid .swp clutter and W325 warnings)
+vim.opt.swapfile = false
+
+-- Saving, centralized backups and persistent undo (swap remains disabled).
+require("core.persistence")
+
 -- Set tabs to 2 spaces
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
@@ -60,4 +66,4 @@ vim.opt.fillchars:append({ diff = "╱" })
 
 -- Remap C-s to save the buffer
 vim.api.nvim_set_keymap("n", "<C-s>", ":w<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("i", "<C-s>", "<Esc>:w", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "<C-s>", "<Esc><cmd>write<CR>", { noremap = true, silent = true })

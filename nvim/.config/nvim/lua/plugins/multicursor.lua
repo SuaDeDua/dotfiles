@@ -24,7 +24,7 @@ return {
 		-- Add or skip adding a new cursor by matching word/selection
 		set({ "n", "x" }, "<leader>n", function()
 			mc.matchAddCursor(1)
-		end)
+		end, { nowait = true, silent = true, desc = "Multicursor: add next match" })
 		set({ "n", "x" }, "<leader>s", function()
 			mc.matchSkipCursor(1)
 		end)
