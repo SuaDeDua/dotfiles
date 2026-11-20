@@ -233,8 +233,14 @@ keymap.set("n", "<leader>go", function()
 		require("jdtls").organize_imports()
 	elseif vim.bo.filetype == "python" then
 		vim.api.nvim_command("PyrightOrganizeImports")
+	elseif vim.bo.filetype == "cs" then
+		vim.cmd("CsOrganizeUsings")
 	end
 end)
+-- C#: namespace theo thư mục (file hiện tại), chuyển type trong vùng chọn sang file riêng
+keymap.set("n", "<leader>gm", "<cmd>CsSyncNamespace<CR>")
+keymap.set("x", "<leader>gx", ":CsMoveType<CR>")
+keymap.set("n", "<leader>gx", "<cmd>.CsMoveType<CR>")
 
 keymap.set("n", "<leader>gu", function()
 	if vim.bo.filetype == "java" then

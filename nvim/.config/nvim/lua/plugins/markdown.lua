@@ -97,5 +97,16 @@ return {
 				conceal = false,
 			},
 		},
+		anti_conceal = {
+			-- Giữ nguyên định dạng bảng khi di chuyển ở Normal mode, chỉ bung ký tự thô khi bấm 'i' (Insert mode)
+			enabled = true,
+			disabled_modes = { "n" },
+			-- Nếu muốn giữ nguyên định dạng ở MỌI chế độ (kể cả lúc đang gõ Insert mode), đổi thành:
+			-- enabled = false,
+		},
+		win_options = {
+			conceallevel = { rendered = 3 },
+			concealcursor = { rendered = "nc" },
+		},
 	},
 }

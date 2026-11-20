@@ -120,6 +120,16 @@ return {
 			},
 		})
 
+		-- PostgreSQL language server (Postgres Tools). Enable only when installed;
+		-- SQLFluff remains the formatter and this server provides completion/diagnostics.
+		if vim.fn.executable("postgres-language-server") == 1 then
+			vim.lsp.config("postgres_lsp", {
+				capabilities = capabilities,
+				filetypes = { "sql", "postgresql" },
+			})
+			vim.lsp.enable("postgres_lsp")
+		end
+
 		-- Disable default JDTLS so that ftplugin/java.lua will be the only jdtls instance
 		vim.lsp.enable("jdtls", false)
 

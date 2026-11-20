@@ -4,6 +4,238 @@ Nhật ký ghi lại toàn bộ các lần can thiệp, chỉnh sửa cấu hìn
 
 ---
 
+## 📌 [2026-11-19] - C# refactor: organize usings, namespace theo thư mục, chuyển type sang file mới
+
+* Hỏi trực tiếp Roslyn (headless, trên file thật của Assetly) để xem nó có những action nào. Kết quả:
+  * `Remove unnecessary usings`, `Sort Usings`;
+  * `Change namespace to '<theo thư mục>'`, `Move file to ...`;
+  * `Move type to X.cs`, `Extract 'X' to a new file`;
+  * khi chọn câu lệnh: `Extract method`, `Extract local function`.
+* Vì Roslyn đã có sẵn các action này, lệnh mới chỉ tìm action theo tiêu đề rồi áp dụng, không tự viết lại (`lua/core/csharp-refactor.lua`, nạp trong `init.lua`):
+  * `:CsOrganizeUsings`, phím `<leader>go` trong file cs: xóa using thừa rồi sắp xếp. Action quickfix chỉ xuất hiện khi gửi kèm diagnostic của dòng (IDE0005).
+  * `:CsSyncNamespace [thư mục]`, phím `<leader>gm`: đổi namespace theo thư mục cho file hiện tại hoặc mọi file `.cs` trong thư mục. Roslyn **chỉ sửa chính file**, nên sau đó lệnh tự sửa các file có `using <cũ>;` mà dùng type vừa chuyển: thêm `using <mới>;` (dùng `ensure_using` của `csharp-register`, hàm này giờ được export), và bỏ `using <cũ>;` khi không còn file nào khai báo namespace cũ.
+  * `:CsMoveType`, phím `<leader>gx` (Visual hoặc trên dòng): tìm type trong vùng chọn bằng Tree-sitter, rồi gọi `Move type to X.cs`. Nếu vùng chọn chỉ có câu lệnh thì báo dùng `<leader>ga` → Extract method.
+  * Các file bị action sửa được lưu lại.
+* Tự thêm `using` khi gõ đã có sẵn từ trước (`dotnet_completion_items_from_unimported_namespaces_commit_behavior = "alwaysAddImport"`).
+* Kiểm tra trên bản sao repo trong `/tmp`, có Roslyn thật, chạy cả với `-u NONE`, nạp riêng module, lẫn config đầy đủ:
+  * xóa đúng `using System.Data.Common;`;
+  * `Wrong` → `Assets.GetAssets`, và file tham chiếu được đổi `using`;
+  * `ZzOther` được chuyển sang `ZzOther.cs`;
+  * vùng chọn không có type thì báo lỗi.
+  * Bản sao đã được xóa.
+* Chưa thử bằng phím trong phiên tương tác. Chưa thử `:CsSyncNamespace` trên thư mục có nhiều file cùng đổi.
+
+---
+
+## 📌 [2026-11-17] - Query phân trang (`GetAssets`): handler, validator, endpoint
+
+* Lỗi: với `GetAssetsQuery(State?, AssetModelId?, Page, PageSize)` và `GetAssetsResponse(Page, PageSize, TotalCount, Items)`:
+  * handler không tìm ra entity, vì `GetAssets` là số nhiều;
+  * nếu ép tìm ra entity thì lại SELECT trên `GetAssetsResponse` thay vì trên item, và lọc `= @Page`;
+  * endpoint đặt tên tham số query PascalCase, `Page`/`PageSize` thiếu giá trị mặc định;
+  * validator thiếu luật cho `Page`/`PageSize`.
+* `entity_for` thử thêm dạng số ít (`S.singular`: `Assets` → `Asset`, `Categories` → `Category`).
+* Query handler nhận ra **dạng phân trang**: Query có `Page` + `PageSize`, Response có một collection của Response khác (`Items`). Khi đó sinh:
+  * `var parameters = new { ..., Take, Skip }`;
+  * SELECT/JOIN trên kiểu item;
+  * bộ lọc tùy chọn `(@X::uuid IS NULL OR ...)` cho tham số nullable;
+  * `ORDER BY` theo cột unique đầu tiên trong Configuration (`a.tag`), để thành placeholder;
+  * `OFFSET/LIMIT`, câu `COUNT(*)`, `QueryMultipleAsync`, rồi `new XxxResponse(...)` gán `items`/`totalCount`/`request.X`.
+  * Query không phân trang: tham số nullable cũng sinh bộ lọc tùy chọn như trên.
+* Endpoint GET: tham số query string viết camelCase. `Page`/`PageSize` kiểu `int` thành `int page = 1, int pageSize = 20`, đặt sau `ISender`.
+* Validator: `Page` → `GreaterThanOrEqualTo(1)`; `PageSize` → `InclusiveBetween(1, 100)`, trong đó 100 là placeholder.
+* Kiểm tra bằng headless `-u NONE`, sinh lại các file thật của module Assets bằng bản cũ và bản mới rồi diff:
+  * chỉ phần của `GetAssets` thay đổi;
+  * `GetAsset`, `GetAssetModel`, `GetFieldSet` và các validator khác giữ nguyên;
+  * so với `GetAssetsQueryHandler` viết tay, nội dung khớp, chỉ khác cách xuống dòng.
+  * Với config đầy đủ, handler cũng sinh được.
+* Chưa xác minh trong phiên tương tác.
+
+---
+
+## 📌 [2026-11-17] - Gom endpoint theo thư mục, Tag theo thư mục, `:SqlSelect` tự JOIN
+
+* Snippet mới `publicendpoints`: tạo file `XxxEndpoints.cs` trong một thư mục rồi gõ snippet, sẽ sinh `MapEndpoints(app)` gọi `X.MapEndpoint(app);` cho mọi class có `MapEndpoint(IEndpointRouteBuilder)` trong thư mục đó, xếp theo chữ cái.
+* `internalendpoint`: `.WithTags(Tags.<Thư mục>)` thay vì tên module (`Presentation/AssetModels/` → `Tags.AssetModels`).
+* `:CsRegister`:
+  * Trên file endpoint: chỉ thêm vào `*Endpoints.cs` **cùng thư mục**; nếu thư mục chưa có file gom thì báo, không thêm nhầm sang thư mục khác. Thêm `internal const string X = "X";` vào `Tags.cs` khi chưa có.
+  * Trên file gom `XxxEndpoints.cs`: thêm `XxxEndpoints.MapEndpoints(app);` cùng `using` vào `*Module.cs`.
+* `:SqlSelect` dùng chung bộ dựng SQL với query handler (`csharp-scaffold.select_sql`). Cột không có trên bảng chính được JOIN theo khóa ngoại `<X>Id`, và tên cột lấy từ EF Configuration (`ManufacturerName` → `JOIN assets.manufacturers m` → `m.name`). Lệnh cũng đọc được record khai báo bằng property `{ get; init; }`. Khi thiếu entity hoặc Configuration thì giữ cách cũ.
+* Kiểm tra bằng nvim headless `-u NONE`:
+  * `publicendpoints` trên thư mục `AssetModels` thật ra đủ 4 endpoint.
+  * `:CsRegister` chạy trên bản sao module trong `/tmp`, kết quả xem bằng diff: thêm `LocationEndpoints` vào `AssetsModule` và `Tags.Locations`; chạy lại thì báo "đã có".
+  * `:SqlSelect AssetModelResponse` ra đúng 2 JOIN với `m.name`, `c.name`; `AssetResponse x` dùng alias `x`; `CustomFieldResponse` (record dạng property) chạy được.
+* Chưa xác minh trong phiên tương tác.
+
+---
+
+## 📌 [2026-11-16] - Sinh handler, validator, domain event từ code có sẵn; lệnh `:CsRegister`
+
+* `lua/core/csharp-source.lua` (mới): phần dùng chung. Tìm khai báo bằng `rg`, ưu tiên file cùng module; đọc bằng Tree-sitter: tham số, property, method, base list, `AggregateRoot<Guid>`. Đọc EF Configuration: `HasMaxLength`, `HasIndex(...).IsUnique()`, `ToTable`, `HasColumnName`, `jsonb`. Có cache theo từng lần sinh. `to_snippet()` đổi các chỗ cần quyết định thành placeholder của LuaSnip.
+* `lua/core/csharp-scaffold.lua` (mới), dùng trong snippet ở `lua/snippets/cs.lua`:
+  * `internalvalidator`: `RuleFor` cho từng property của `<Tên file bỏ Validator>`. `string` không nullable → `NotEmpty()`; `MaximumLength` lấy từ `HasMaxLength` của entity, kể cả hằng như `SerialNumber.MaxLength` (tự thêm `using`). `Guid` → `NotEmpty()`, `Guid?` → `NotEqual(Guid.Empty)`, enum → `IsInEnum()`.
+  * `internalhandler`, nhánh Command: entity chính suy từ tên command hoặc từ tham số `<X>Id` có `I<X>Repository`. Có `<Entity>Id` thì nạp kèm `NotFound`; không có thì dùng factory `Create`. Value object có `V.Create(string)` → khối `Result<V>`. Entity khác được nạp theo `<X>Id` của request (nullable → nạp có điều kiện), hoặc theo `<X>Id` của entity đã nạp. Unique index → gọi method `Task<bool>` của repository có tham số trùng tên cột, và chọn `...NotUnique`/`Duplicate...` trong `XxxErrors`. Gọi method domain, `Insert`, `SaveChangesAsync`, trả `Id`.
+  * `internalhandler`, nhánh Query: Dapper SELECT từ property của Response. Cột không có trên bảng chính → tự JOIN theo khóa ngoại `<X>Id`, tối đa 2 bước (`AssetModelName` → `JOIN asset_models am` → `am.name`); `Guid?` → `LEFT JOIN`. `jsonb` + `string` → `::text`. `WHERE` lấy từ tham số Query; một bản ghi → `NotFound`, danh sách → `QueryAsync`.
+  * `recordevent` (mới): `public sealed record <Tên file>(...) : DomainEvent` với tham số suy từ `Raise(new <Tên file>(...))`, lấy kiểu từ tham số, biến cục bộ, property và chuỗi member (`SerialNumber?.Value` → `string?`, `result.Value.Id` → `CustomFieldId`).
+  * Chưa có dữ liệu (chưa có command, chưa có lời gọi `Raise`) → snippet ra khung cũ, hoặc record trống để tự điền.
+* `lua/core/csharp-register.lua` (mới), nạp từ `init.lua`: `:CsRegister` đọc buffer hiện tại.
+  * Endpoint → `X.MapEndpoint(app);` trong `*Endpoints.cs`.
+  * Repository → `services.AddScoped<IX, X>();` trong `*Module.cs`, kèm `DbSet<X>`.
+  * EF configuration → `DbSet<X>`.
+  * Dòng đã có thì bỏ qua; tự thêm `using` theo thứ tự; giữ BOM; lưu file đích.
+* Kiểm tra bằng nvim headless `-u NONE` với code thật của module Assets:
+  * Handler sinh ra khớp file viết tay ở `CreateAsset`, `UpdateAssetDetails`, `CreateAssetModel`, `DiscontinueAssetModel`. Còn placeholder: `hasAssets`, `isInUse`, check unique của Manufacturer, và việc tự sinh tag khi `Tag` trống.
+  * Validator lấy đúng độ dài từ Configuration.
+  * Query `GetAssetModel` ra đúng 2 JOIN; `GetAsset` ra `am.name`/`asset_model_id`/`custom_fields::text`.
+  * Event: 6 event có sẵn khớp kiểu.
+  * `:CsRegister` chạy trên bản sao module trong `/tmp`, kết quả xem bằng diff.
+  * Thứ tự nhảy placeholder đã kiểm tra.
+  * Config đầy đủ: loader thấy 4 snippet, `:CsRegister` đã có.
+* Chưa xác minh: dropdown Blink tương tác; dòng dài chờ CSharpier format lại khi lưu.
+
+---
+
+## 📌 [2026-11-16] - Snippet `internalendpoint`: sinh endpoint + Request từ Command/Query
+
+* Thêm `lua/core/csharp-endpoint.lua` và snippet `internalendpoint` trong `lua/snippets/cs.lua`. Snippet lấy tên class từ tên file (ví dụ `UpdateAssetDetails`), dùng `rg` tìm record `UpdateAssetDetailsCommand` hoặc `UpdateAssetDetailsQuery`, rồi đọc tham số và `ICommand<T>`/`IQuery<T>` bằng Tree-sitter.
+* Sinh ra:
+  * `using` cho namespace của command, `ApiResults`, `Result`, MediatR và AspNetCore;
+  * `app.Map<Verb>`, chọn verb theo tiền tố tên (Create/Add → Post, Get/List → Get, Update/Change → Put, Delete/Remove → Delete);
+  * route: phần gốc lấy theo **thư mục** chứa file, đổi sang kebab-case (`Presentation/AssetModels/` → `asset-models`). Nếu tham số đầu của command/query là `...Id` kiểu `Guid`/`int`/`long` thì route thêm `/{id:guid}`, `/{id:int}` hoặc `/{id:long}`, **kể cả với POST** (`AddCustomField(FieldSetId, …)` → `field-sets/{id:guid}`). Lambda nhận `<kiểu> id`, và `id` không còn nằm trong `Request`. Kiểu riêng của project dùng trong `Request` (ví dụ enum `CustomFieldType`) được tự thêm `using`;
+  * `Result` + `Results.NoContent` cho `ICommand`, `Result<T>` + `Results.Ok` cho `ICommand<T>`/`IQuery<T>`;
+  * class `Request` chứa các tham số còn lại; `IReadOnlyDictionary`/`IReadOnlyList` đổi thành `Dictionary`/`List` nullable và truyền thêm `?? []`. Với GET thì không sinh `Request`, tham số được bind thẳng vào lambda;
+  * `.WithTags(Tags.<Module>)`.
+* Thứ tự nhảy: (1) con trỏ đứng ngay sau route (`asset-models/█` hoặc `field-sets/{id:guid}█`) để gõ tiếp đường dẫn → (2) verb. Nếu không tìm thấy record, snippet vẫn sinh khung với `new <Tên>Command()`.
+* Đã kiểm tra bằng nvim headless `-u NONE`, chỉ nạp LuaSnip, buffer đặt trong `Assets.Presentation/Assets/` của Assetly với record thật. `CreateAsset` và `GetAsset` cho ra code khớp file hiện có; `UpdateAssetDetails` ra PUT `assets/{id}` cùng Request 3 property; tên không có command cũng sinh được khung. Thứ tự nhảy: Put → route → hết. Với config đầy đủ, loader `from_lua` có thấy snippet.
+* Chưa kiểm tra trong dropdown Blink tương tác.
+
+---
+
+## 📌 [2026-11-16] - Chuyển skill Claude sang `nvim-config` dùng được ở mọi project
+
+* Gộp skill `nvim-csharp-completion` thành `claude/.claude/skills/nvim-config/`, gồm `SKILL.md` và các reference `csharp-completion.md`, `sql-in-csharp.md`. Dùng `stow claude` để tạo symlink `~/.claude/skills/nvim-config`. Nhờ đó Claude nạp skill được cả khi đang làm việc trong project khác (ví dụ Assetly), và có file thật để kiểm chứng.
+* `AGENTS.md` vẫn là nguồn quy tắc chung; skill trỏ tới đó thay vì chép lại. Thêm `nvim/CLAUDE.md` (`@AGENTS.md`) để phiên mở trong dotfiles cũng nạp quy tắc.
+* Xóa `.claude/skills/nvim-csharp-completion` cũ để không trùng tên skill khi mở phiên trong dotfiles. Bản cho Codex ở `.agents/skills/` giữ nguyên.
+* Sửa ghi chú ngày 2026-11-13: lỗi timeout khi resolve chưa chắc do Roslyn, vì request thiếu `itemDefaults.data`.
+
+---
+
+## 📌 [2026-11-13] - Lệnh sinh SELECT ... FROM Dapper từ record C#
+
+* `lua/core/sql-format.lua` thêm lệnh `:SqlSelect <Record> [alias] [schema.table]`:
+  * Dùng `rg` tìm `record <Record>(` trong repo và đọc tham số của primary constructor. Lệnh chỉ tách tại dấu phẩy ở mức ngoài cùng nên không hỏng với generic/tuple, và bỏ giá trị mặc định.
+  * Sinh khối `SELECT`, mỗi tham số một dòng `alias.snake_case AS {nameof(Record.Prop)},`, dòng cuối không có dấu phẩy, rồi đến `FROM schema.table alias`.
+* Giá trị mặc định suy từ tên record:
+  * bảng: bỏ `Response`, đổi sang snake_case số nhiều (`CustomFieldResponse` → `custom_fields`, `Category` → `categories`);
+  * alias: các chữ hoa viết thường (`cf`);
+  * schema: tên thư mục `src/Modules/<Module>/` viết thường.
+  * Có thể truyền `[alias] [schema.table]` để ghi đè.
+* Chèn và thụt lề:
+  * Nếu dòng phía trên đã là `SELECT` thì không sinh lại `SELECT`.
+  * Dòng hiện tại trống thì bị thay bằng kết quả; dòng có nội dung thì kết quả chèn bên dưới.
+  * Cột thụt thêm 4 dấu cách so với `SELECT`/`FROM`, khớp `:SqlFormat`.
+  * Tab gợi ý các record `*Response` trong repo.
+* Giới hạn:
+  * Property ngoài primary constructor (ví dụ `FieldSetResponse.Fields`) không được sinh.
+  * Cột lấy từ bảng JOIN (ví dụ `AssetModelName` → `am.name`) vẫn dùng alias chính, cần sửa tay. Lệnh không sinh JOIN/WHERE.
+* Đã kiểm tra bằng nvim headless `-u NONE`, chạy với buffer đặt trong thư mục module Assets:
+  * `CustomFieldResponse`: ra `FROM assets.custom_fields cf`;
+  * `FieldSetResponse`, đặt dưới `SELECT` có sẵn: ra `FROM assets.field_sets fs`;
+  * `AssetResponse a assets.assets`: ra `FROM assets.assets a`.
+* Chưa xác minh trong phiên nvim tương tác.
+
+---
+
+## 📌 [2026-11-13] - Bỏ type argument suy ra được khi completion method generic C#
+
+* `lua/core/csharp-completion.lua` thêm `inferable()`. Khi mọi type parameter của method đều xuất hiện trong kiểu tham số (kể cả receiver `this` của extension method), snippet chỉ còn phần đối số. Ví dụ: `NotEmpty<T, TProperty>(this IRuleBuilder<T, TProperty>)` → `NotEmpty()`, `MaximumLength(${1:maximumLength})`, `Must(${1:predicate})`, `Where(${1:predicate})`.
+* Method không suy ra được kiểu vẫn giữ placeholder generic: `Failure<${1:TValue}>(${2:error})`, `Array.Empty<${1:T}>()`.
+* Nhãn menu vẫn là `NotEmpty<>` vì Roslyn trả nhãn như vậy; chỉ phần chèn vào thay đổi.
+* Đã kiểm tra bằng nvim headless `-u NONE` với 7 item mẫu có chữ ký theo dạng Roslyn (FluentValidation, Result, LINQ, method thường). Item `NotEmpty` thật lấy từ Roslyn chỉ có `label = "NotEmpty<>"`, còn chữ ký đến từ `completionItem/resolve`; bước resolve không lấy được khi chạy headless: Roslyn crash (exit 134), và request resolve thủ công chưa gộp `itemDefaults.data` nên timeout có thể do chính request; nguyên nhân chưa xác định. Chưa xác minh dropdown thật trong phiên tương tác.
+
+---
+
+## 📌 [2026-11-13] - Lệnh format SQL trong raw string C#
+
+* Thêm `lua/core/sql-format.lua` và nạp nó trong `init.lua` ngay sau `core.keymaps`. File này tạo lệnh `:SqlFormat` dùng cho vùng chọn, kèm phím tắt `<leader>fq` ở Visual mode (mode `x`).
+* Lệnh chạy `pg_format -s 4 -u 2` (bản cài qua Mason) trên các dòng đang chọn. Keyword được viết HOA, mức thụt lề nhỏ nhất của khối SQL được giữ nguyên để không lỗi raw string C# (CS9003). `{nameof(...)}`, `::text` và `@Param` không bị đổi.
+* Mason nạp ở `VeryLazy`, nên nếu PATH chưa có `pg_format` thì lệnh tìm trực tiếp trong `stdpath("data")/mason/bin`.
+* Chỉ chọn các dòng SQL, không chọn dòng `$"""` và `""";`. Conform/CSharpier vẫn không động vào SQL trong chuỗi, còn SQLFluff vẫn dùng cho buffer `.sql`.
+* Đã kiểm tra bằng nvim headless:
+  * `-u NONE`: chạy cả lệnh lẫn phím tắt;
+  * config đầy đủ: chạy được `:SqlFormat`.
+* Chưa thử thao tác tay trong phiên nvim tương tác.
+
+---
+
+## 📌 [2026-11-13] - Thêm PostgreSQL language server
+
+* Bật `postgres_lsp` cho filetype `sql` và `postgresql` khi executable `postgres-language-server` có trong PATH. Server cung cấp completion/diagnostics; `sqlfluff` vẫn chịu trách nhiệm format.
+* Không bật server khi chưa cài binary để Neovim không báo lỗi lúc khởi động.
+
+---
+
+## 📌 [2026-11-13] - Thêm formatter SQL/PostgreSQL
+
+* Conform.nvim dùng `sqlfluff format --dialect postgres -` cho filetype `sql` và `postgresql`, chạy cùng `format_on_save` hiện tại.
+* SQL nằm trong raw/interpolated string C# không được tự sửa trực tiếp để tránh làm hỏng interpolation; nên format trong buffer `.sql` hoặc workflow riêng.
+
+---
+
+## 📌 [2026-11-12] - Thêm hướng dẫn dùng chung cho Codex và Gemini
+
+* Thêm `nvim/AGENTS.md` làm nguồn quy tắc chung cho chỉnh sửa Neovim bằng Codex và Gemini CLI.
+* Thêm `nvim/GEMINI.md` trỏ về cùng nguồn để tránh lệch hướng dẫn giữa hai công cụ. Claude tiếp tục dùng các skill project riêng trong `.claude/`.
+
+---
+
+## 📌 [2026-11-12] - Tạo skill cho completion C# trong Neovim
+
+* Thêm `.claude/skills/nvim-csharp-completion/SKILL.md`, tổng hợp quy tắc xử lý Blink/Roslyn/LuaSnip: ưu tiên dữ liệu declaration dynamic, giữ generic/import/range, phân biệt kiểm thử mẫu với kiểm thử dropdown thật và ghi nhận giới hạn chưa xác minh.
+
+---
+
+## 📌 [2026-11-12] - Dynamic generic type từ declaration Roslyn
+
+* Lấy type parameter từ detail hoặc declaration C# trong documentation đã resolve, ngoài label. Áp dụng theo dữ liệu server cho class/interface/struct bất kỳ, không hardcode tên `Result` hay `AbstractValidator`.
+* Hỗ trợ nhiều type parameter và variance `in`/`out`; giữ completion thường nếu không có declaration generic hợp lệ. Đã chạy kiểm tra headless với dữ liệu completion mẫu, chưa xác minh dropdown project thực tế.
+
+---
+
+## 📌 [2026-11-12] - Giữ generic trong completion method C#
+
+* Chuyển signature method generic Roslyn thành snippet có cả type arguments: `Failure<TValue>(Error error)` → `Failure<${1:TValue}>(${2:error})$0`. Tab sửa kiểu trước rồi tham số; overload thường giữ nguyên.
+* Lấy signature từ documentation nếu detail không chứa signature; hỗ trợ label có type arguments. Không thêm lời gọi nếu đã có `<` hoặc `(` sau con trỏ.
+* Kiểm tra headless với completion mẫu generic/thường, nhiều type parameter, range/import và thứ tự nhảy LuaSnip; chưa xác minh trực tiếp với dropdown Roslyn trong project.
+
+---
+
+## 📌 [2026-11-12] - Tối giản placeholder internal handler/validator
+
+* `internalhandler`: constructor trống → `ICommandHandler` sửa được → generic trống → thân class.
+* `internal`: `AbstractValidator` sửa được → generic trống → thân class. Bỏ dependency và command mẫu để dùng lại cho nhiều class.
+
+---
+
+## 📌 [2026-11-12] - Snippet internal command handler
+
+* Thêm `internalhandler`: tên class theo file, primary constructor có các dependency mẫu và `ICommandHandler<CreateAssetCommand, Guid>`. Tab qua từng kiểu dependency, tên biến, command và kiểu kết quả rồi vào thân class. Giữ các snippet internal hiện có.
+
+---
+
+## 📌 [2026-11-12] - Snippet internal validator và completion generic C#
+
+* Thêm snippet `internal`: namespace, `internal sealed class` theo tên file và `AbstractValidator<CreateAssetCommand>` với placeholder sửa kiểu command.
+* Với completion kiểu generic của Roslyn có label `Type<T>` nhưng text edit chỉ chèn `Type`, chuyển thành snippet `Type<T>` có placeholder. Giữ range, additionalTextEdits và snippet server đã cung cấp; không thêm dấu generic khi đã có `<` phía sau con trỏ.
+
+---
+
+## 📌 [2026-11-12] - Bỏ XML comment khỏi snippet C#
+
+* Các snippet `class`, `interface`, `record`, `enum`, `struct` và `aclass` không còn tự chèn `/** ... */` trước khai báo. Ví dụ `CreateAssetCommand` giờ được tạo trực tiếp mà không có comment rỗng.
+
+---
+
 ## 📌 [2026-11-12] - Sửa `<leader>n` cho multicursor
 
 * Đặt mapping multicursor `<leader>n` ở chế độ `nowait` và `silent`, tránh chờ prefix hoặc bị mapping leader khác giữ phím. Giữ `<leader>N` để thêm match theo chiều ngược lại và không thay motion Colemak `n = h`.

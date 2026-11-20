@@ -8,9 +8,10 @@ return {
 		require("nvim-tree").setup({
 			filters = {
 				dotfiles = false,
-				-- hide file on java(spring boot)
 				custom = {
+					-- git
 					"^.git$",
+					-- springboot(java)
 					"target",
 					".gradle",
 					".classpath",
@@ -19,7 +20,11 @@ return {
 					".idea",
 					".settings",
 					".project",
+					-- macos file type
 					".DS_Store",
+					-- dotnet
+					"bin",
+					"obj",
 				},
 				exclude = { vim.fn.stdpath("config") .. "/lua/custom" },
 			},

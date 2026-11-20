@@ -3,6 +3,8 @@ local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
+local d = ls.dynamic_node
+local sn = ls.snippet_node
 
 -- Hàm tự động phân tích đường dẫn file thành C# Namespace dựa vào .csproj
 local function get_csharp_namespace()
@@ -74,14 +76,131 @@ local function get_interface_name()
 	return name
 end
 
+-- Snippet sinh từ code trong repo: build(class, namespace) trả text có placeholder (core.csharp-source),
+-- hoặc nil để dùng fallback(). Lỗi khi sinh được báo ra và cũng rơi về fallback.
+local function generated(build, fallback)
+	return d(1, function()
+		local ok, text = pcall(build, get_class_name(), get_csharp_namespace())
+		if not ok then
+			vim.notify("snippet: " .. tostring(text), vim.log.levels.WARN)
+		end
+		if ok and text then
+			local body = require("core.csharp-source").to_snippet(text)
+			return sn(nil, ls.parser.parse_snippet(nil, body))
+		end
+		return sn(nil, fallback and fallback() or { i(1) })
+	end)
+end
+
 local snippets = {
+	s({
+		trig = "internalhandler",
+		name = "internal sealed command/query handler",
+		dscr = "Handler generated from <FileName minus Handler> Command/Query; empty skeleton when not found",
+	}, {
+		generated(function(class, namespace)
+			return require("core.csharp-scaffold").handler(class, namespace)
+		end, function()
+			return {
+				t("namespace "),
+				f(get_csharp_namespace, {}),
+				t({ ";", "", "internal sealed class " }),
+				f(get_class_name, {}),
+				t("("),
+				i(1),
+				t(") : "),
+				i(2, ""),
+				t({ "{", "    " }),
+				i(3),
+				t({ "", "}" }),
+			}
+		end),
+		i(0),
+	}),
+
+	s({
+		trig = "internalendpoint",
+		name = "internal static endpoint",
+		dscr = "Minimal API endpoint + Request generated from <FileName>Command/Query",
+	}, {
+		d(1, function()
+			local nodes = {}
+			for _, part in ipairs(require("core.csharp-endpoint").parts(get_class_name(), get_csharp_namespace())) do
+				if part.text then
+					table.insert(nodes, t(vim.split(part.text, "\n", { plain = true })))
+				else
+					table.insert(nodes, i(part.insert, part.default))
+				end
+			end
+			return sn(nil, nodes)
+		end),
+		i(0),
+	}),
+
+	s({
+		trig = "internalvalidator",
+		name = "internal sealed validator",
+		dscr = "FluentValidation validator generated from <FileName minus Validator>; empty skeleton when not found",
+	}, {
+		generated(function(class, namespace)
+			return require("core.csharp-scaffold").validator(class, namespace)
+		end, function()
+			return {
+				t("namespace "),
+				f(get_csharp_namespace, {}),
+				t({ ";", "", "internal sealed class " }),
+				f(get_class_name, {}),
+				t(" : "),
+				i(1, "AbstractValidator"),
+				t({ "{", "    " }),
+				i(2),
+				t({ "", "}" }),
+			}
+		end),
+		i(0),
+	}),
+
+	s({
+		trig = "publicendpoints",
+		name = "public static endpoints (folder)",
+		dscr = "MapEndpoints calling X.MapEndpoint(app) for every endpoint class in this folder",
+	}, {
+		generated(function(class, namespace)
+			return require("core.csharp-endpoint").aggregate(class, namespace)
+		end),
+		i(0),
+	}),
+
+	s({
+		trig = "recordevent",
+		name = "domain event record",
+		dscr = "Domain event record with parameters inferred from Raise(new <FileName>(...))",
+	}, {
+		generated(function(class, namespace)
+			return require("core.csharp-scaffold").domain_event(class, namespace)
+		end),
+		i(0),
+	}),
+
+	s({
+		trig = "internal",
+		name = "internal static class",
+		dscr = "Internal static",
+	}, {
+		t("namespace "),
+		f(get_csharp_namespace, {}),
+		t({ ";", "", "internal static class " }),
+		f(1, get_class_name, {}),
+		t({ "{", "    " }),
+		i(0),
+		t({ "", "}" }),
+	}),
+
 	-- 1. Snippet: class
 	s("class", {
 		t("namespace "),
 		f(get_csharp_namespace, {}),
-		t({ ";", "", "/**", " * " }),
-		f(get_class_name, {}),
-		t({ "", " */", "public class " }),
+		t({ ";", "", "public class " }),
 		f(get_class_name, {}),
 		t({ "", "{", "    " }),
 		i(0),
@@ -92,9 +211,7 @@ local snippets = {
 	s("interface", {
 		t("namespace "),
 		f(get_csharp_namespace, {}),
-		t({ ";", "", "/**", " * " }),
-		f(get_interface_name, {}),
-		t({ "", " */", "public interface " }),
+		t({ ";", "", "public interface " }),
 		f(get_interface_name, {}),
 		t({ "", "{", "    " }),
 		i(0),
@@ -105,9 +222,7 @@ local snippets = {
 	s("record", {
 		t("namespace "),
 		f(get_csharp_namespace, {}),
-		t({ ";", "", "/**", " * " }),
-		f(get_class_name, {}),
-		t({ "", " */", "public sealed record " }),
+		t({ ";", "", "public sealed record " }),
 		f(get_class_name, {}),
 		t("("),
 		i(1),
@@ -118,9 +233,7 @@ local snippets = {
 	s("recordclass", {
 		t("namespace "),
 		f(get_csharp_namespace, {}),
-		t({ ";", "", "/**", " * " }),
-		f(get_class_name, {}),
-		t({ "", " */", "public record " }),
+		t({ ";", "", "public record " }),
 		f(get_class_name, {}),
 		t({ "", "{", "    " }),
 		i(0),
@@ -131,9 +244,7 @@ local snippets = {
 	s("enum", {
 		t("namespace "),
 		f(get_csharp_namespace, {}),
-		t({ ";", "", "/**", " * " }),
-		f(get_class_name, {}),
-		t({ "", " */", "public enum " }),
+		t({ ";", "", "public enum " }),
 		f(get_class_name, {}),
 		t({ "", "{", "    " }),
 		i(0),
@@ -144,9 +255,7 @@ local snippets = {
 	s("struct", {
 		t("namespace "),
 		f(get_csharp_namespace, {}),
-		t({ ";", "", "/**", " * " }),
-		f(get_class_name, {}),
-		t({ "", " */", "public readonly struct " }),
+		t({ ";", "", "public readonly struct " }),
 		f(get_class_name, {}),
 		t({ "", "{", "    " }),
 		i(0),
@@ -157,9 +266,7 @@ local snippets = {
 	s("aclass", {
 		t("namespace "),
 		f(get_csharp_namespace, {}),
-		t({ ";", "", "/**", " * " }),
-		f(get_class_name, {}),
-		t({ "", " */", "public abstract class " }),
+		t({ ";", "", "public abstract class " }),
 		f(get_class_name, {}),
 		t({ "", "{", "    " }),
 		i(0),

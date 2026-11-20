@@ -26,4 +26,7 @@ require("lazy").setup("plugins", {
 -- These modules are not loaded by lazy
 require("core.options")
 require("core.keymaps")
+require("core.sql-format")
+require("core.csharp-register")
+require("core.csharp-refactor")
 require("current-theme")

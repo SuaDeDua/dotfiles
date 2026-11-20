@@ -10,6 +10,9 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				cs = { "csharpier" },
+				-- sqlfluff đọc SQL từ stdin; dùng dialect postgres cho SQL/PostgreSQL.
+				sql = { "sqlfluff" },
+				postgresql = { "sqlfluff" },
 				-- java: để trống để conform tự động fallback về JDTLS (dùng eclipse-formatter.xml)
 				graphql = { "prettier" },
 				javascript = { "prettier" },
@@ -18,6 +21,11 @@ return {
 			},
 			-- Chỉ định nghĩa lại những tool lạ hoặc cần tham số custom
 			formatters = {
+				sqlfluff = {
+					command = "sqlfluff",
+					args = { "format", "--dialect", "postgres", "-" },
+					stdin = true,
+				},
 				kulala = {
 					command = "kulala-fmt",
 					args = { "format", "$FILENAME" },
